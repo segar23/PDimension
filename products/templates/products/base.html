@@ -47,10 +47,33 @@
         </nav>
     </header>
 
-    <div class="container">
-        {% block content %}
-        {% endblock %}
-    </div>
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-md-8">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% block content %}
+                {% endblock %}
+            </div>
+            <div class="col-md-4">
+                <div class="content-section">
+                    <h3>Menu</h3>
+                    <p class="text-muted">
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-light">Mis Ordenes</li>
+                            <li class="list-group-item list-group-item-light">Mensajes</li>
+                            <li class="list-group-item list-group-item-light">etc</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
