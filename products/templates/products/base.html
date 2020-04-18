@@ -2,7 +2,7 @@
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es-CO">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -25,8 +25,7 @@
         <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
             <div class="container">
                 <a class="navbar-brand mr-4" href="#">
-                    <img class="img-thumbnail" src="{% static 'products/logo.png' %}" width="50%" height="50%" alt="">
-
+                    <img class="img-thumbnail d-inline-block align-top" src="{% static 'products/logo.png' %}" width="50%" height="50%" alt="">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
                         aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,8 +38,8 @@
                     </div>
                     <!-- Navbar Right Side -->
                     <div class="navbar-nav">
-                        <a class="nav-item nav-link" href="#">Login</a>
-                        <a class="nav-item nav-link" href="#">Registrarse</a>
+                        <a class="nav-item nav-link" href="#">Iniciar Sesión</a>
+                        <a class="nav-item nav-link" href="{% url 'register' %}">Registrarse</a>
                     </div>
                 </div>
             </div>
