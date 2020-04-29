@@ -18,10 +18,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from users import views as user_views
+from landing import views as landing_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('products.urls')),
+    path('', landing_views.home, name='landing-page'),
+    path('products/', include('products.urls')),
     path('register/', user_views.register, name='register'),
 ]
 
