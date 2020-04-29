@@ -11,7 +11,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{% static 'products/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+    <script src="https://kit.fontawesome.com/36c8f6d0a6.js" crossorigin="anonymous"></script>
 
     {% if title %}
         <title>Papeleria Dimension - {{ title }}</title>
@@ -22,57 +23,84 @@
 <body>
 
     <header>
-        <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
-            <div class="container">
-                <a class="navbar-brand mr-4" href="#">
-                    <img class="img-thumbnail d-inline-block align-top" src="{% static 'products/logo.png' %}" width="50%" height="50%" alt="">
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
-                        aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarToggle">
-                    <div class="navbar-nav mr-auto">
-                        <a class="nav-item nav-link" href="{% url 'products-home' %}">Home</a>
-                        <a class="nav-item nav-link" href="#">Productos</a>
-                    </div>
-                    <!-- Navbar Right Side -->
-                    <div class="navbar-nav">
-                        <a class="nav-item nav-link" href="#">Iniciar Sesión</a>
-                        <a class="nav-item nav-link" href="{% url 'register' %}">Registrarse</a>
-                    </div>
-                </div>
+        <nav class="navbar navbar-expand-md navbar-light fixed-top">
+            <div class="navbar ml-auto mr-2">
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search">
+                    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+                </form>
             </div>
         </nav>
     </header>
+    <header class="mb-4">
+        <div class="d-flex justify-content-center">
+            <a class="d-flex justify-content-center" href="{% url 'landing-page' %}">
+                <img class="img-thumbnail d-inline-block align-top" src="{% static 'logo.jpg' %}" width="50%" height="50%" alt="">
+            </a>
+        </div>
+    </header>
 
     <main role="main" class="container">
-        <div class="row">
-            <div class="col-md-8">
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}">
-                            {{ message }}
+        <div class="row row-cols-1 row-cols-md-4">
+            <div class="mb-4">
+                <div class="card h-100 mx-2">
+                    <div class="card-img-top">
+                        <div class="d-flex justify-content-center">
+                            <i class="fas fa-home fa-7x"></i>
                         </div>
-                    {% endfor %}
-                {% endif %}
-                {% block content %}
-                {% endblock %}
+                    </div>
+                    <div class="card-footer text-center">
+                        <h5>Conócenos</h5>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4">
-                <div class="content-section">
-                    <h3>Menu</h3>
-                    <p class="text-muted">
-                        <ul class="list-group">
-                            <li class="list-group-item list-group-item-light">Mis Ordenes</li>
-                            <li class="list-group-item list-group-item-light">Mensajes</li>
-                            <li class="list-group-item list-group-item-light">etc</li>
-                        </ul>
-                    </p>
+            <div class="mb-4">
+                <div class="card h-100 mx-2">
+                    <div class="d-flex justify-content-center">
+                            <i class="fas fa-th fa-7x"></i>
+                    </div>
+                    <div class="card-footer text-center">
+                        <h5>Catálogo</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-4">
+                <div class="card h-100 mx-2">
+                    <div class="d-flex justify-content-center">
+                            <i class="fas fa-dollar-sign fa-7x"></i>
+                    </div>
+                    <div class="card-footer text-center">
+                        <h5>Cotiza</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-4">
+                <div class="card h-100 mx-2">
+                    <div class="d-flex justify-content-center">
+                            <i class="fas fa-hands-helping fa-7x"></i>
+                    </div>
+                    <div class="card-footer text-center">
+                        <h5>Contáctanos</h5>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
+
+    <footer>
+        <nav class="navbar navbar-expand-md navbar-light fixed-bottom">
+            <div class="navbar ml-auto mr-2">
+                <div class="container">
+{#                    <div class="row justify-content-end">#}
+{#                        <div class="col-1">#}
+                            <a class="btn btn-outline-primary my-2 my-sm-0" href="#"><i class="fas fa-at fa-3x"></i></a>
+                            <a class="btn btn-outline-primary my-2 my-sm-0" href="#"><i class="fab fa-whatsapp fa-3x"></i></a>
+{#                        </div>#}
+{#                    </div>#}
+                </div>
+            </div>
+        </nav>
+    </footer>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
