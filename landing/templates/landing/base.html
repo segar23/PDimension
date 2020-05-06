@@ -40,52 +40,8 @@
         </div>
     </header>
 
-    <main role="main" class="container">
-        <div class="row row-cols-1 row-cols-md-4">
-            <div class="mb-4">
-                <div class="card h-100 mx-2">
-                    <div class="card-img-top">
-                        <div class="d-flex justify-content-center">
-                            <i class="fas fa-home fa-7x"></i>
-                        </div>
-                    </div>
-                    <div class="card-footer text-center">
-                        <h5>Conócenos</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-4">
-                <div class="card h-100 mx-2">
-                    <div class="d-flex justify-content-center">
-                            <i class="fas fa-th fa-7x"></i>
-                    </div>
-                    <div class="card-footer text-center">
-                        <h5>Catálogo</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-4">
-                <div class="card h-100 mx-2">
-                    <div class="d-flex justify-content-center">
-                            <i class="fas fa-dollar-sign fa-7x"></i>
-                    </div>
-                    <div class="card-footer text-center">
-                        <h5>Cotiza</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-4">
-                <div class="card h-100 mx-2">
-                    <div class="d-flex justify-content-center">
-                            <i class="fas fa-hands-helping fa-7x"></i>
-                    </div>
-                    <div class="card-footer text-center">
-                        <h5>Contáctanos</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+    {% block content %}
+    {% endblock %}
 
     <footer>
         <nav class="navbar navbar-expand-md navbar-light fixed-bottom">
