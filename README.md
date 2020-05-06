@@ -8,7 +8,7 @@ to run the container:
 
 Production deployment:
 in the django directory, run:
-`docker build -f ../uwsgi/Dockerfile . -t agic:latest`
+`docker build -f ../uwsgi/Dockerfile . -t magic:latest`
 in the nginx directory:
 `docker build . -t nginx_magic:latest`
 
