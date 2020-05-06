@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+    nginx:
+        image: nginx_magic:0.1
+        container_name: nginx
+        ports:
+            - "8080:8080"
+        depends_on:
+            - web
+        volumes:
+            - static_files:/srv
+        networks:
+            - default
+    web:
+        image: magic:0.1
+        container_name: django
+        expose:
+            - "8000"
+        volumes:
+            - static_files:/var/www
+        networks:
+            - default
+networks:
+    default:
+volumes:
+    static_files:
