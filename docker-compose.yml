@@ -2,7 +2,7 @@ version: "3"
 
 services:
     nginx:
-        image: nginx_magic:0.1
+        image: nginx_magic:latest
         container_name: nginx
         ports:
             - "8080:8080"
@@ -13,7 +13,7 @@ services:
         networks:
             - default
     web:
-        image: magic:0.1
+        image: magic:latest
         container_name: django
         expose:
             - "8000"
