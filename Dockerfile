@@ -7,7 +7,7 @@ RUN apt-get update -y && \
     pip install https://projects.unbit.it/downloads/uwsgi-lts.tar.gz
 
 WORKDIR /var/www
-ADD . .
+ADD django/ .
 
 RUN pip install -r requirements.txt && \
     python manage.py migrate && \
