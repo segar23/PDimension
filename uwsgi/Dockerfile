@@ -7,11 +7,13 @@ RUN apt-get update -y && \
     pip install https://projects.unbit.it/downloads/uwsgi-lts.tar.gz
 
 WORKDIR /var/www
-ADD django/ .
+ADD . .
 
 RUN pip install -r requirements.txt && \
     python manage.py migrate && \
     chown -R www-data. /var/www
 
+EXPOSE 8080
 USER www-data
-CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
+#CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
+CMD ["uwsgi", "--socket", "django:3031", "--chdir", "/var/www", "--wsgi-file", "PDimension/wsgi.py", "--master", "--processes", "2", "--threads", "2", "--stats", "0.0.0.0:8000"]
