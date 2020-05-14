@@ -5,15 +5,18 @@ to build the Docker image for testing:
 
 to run the container:
 `docker run -p 8000:8000 magic_test:latest`
-test:
+
+development test:
 `http://localhost:8000`
 
 Production deployment:
 in the django directory, run:
 `docker build -f ../uwsgi/Dockerfile . -t magic:latest`
+
 in the nginx directory:
 `docker build . -t nginx_magic:latest`
-test:
+
+"production" test url:
 `http://localhost:8080`
 
 Test the stack:
