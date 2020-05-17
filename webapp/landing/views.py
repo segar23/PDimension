@@ -1,5 +1,9 @@
-from django.shortcuts import render
+from django.views import View
 
 
-def home(request):
-    return render(request, 'landing/landing.html')
+class LandingHome(View):
+    template_name = 'landing/landing.html'
+
+
+class AboutUsView(View):
+    template_name = 'landing/about.html'
