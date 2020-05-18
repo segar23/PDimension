@@ -1,5 +1,13 @@
-from django.shortcuts import render
+from django.views.generic import TemplateView
 
 
-def home(request):
-    return render(request, 'landing/landing.html')
+class LandingHome(TemplateView):
+    template_name = 'landing/landing.html'
+
+
+class AboutUsView(TemplateView):
+    template_name = 'landing/about.html'
+
+
+class LocationView(TemplateView):
+    template_name = 'landing/location.html'
