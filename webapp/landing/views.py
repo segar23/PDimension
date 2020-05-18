@@ -1,9 +1,9 @@
-from django.views import View
+from django.views.generic import TemplateView
 
 
-class LandingHome(View):
+class LandingHome(TemplateView):
     template_name = 'landing/landing.html'
 
 
-class AboutUsView(View):
+class AboutUsView(TemplateView):
     template_name = 'landing/about.html'
