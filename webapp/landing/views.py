@@ -7,3 +7,7 @@ class LandingHome(TemplateView):
 
 class AboutUsView(TemplateView):
     template_name = 'landing/about.html'
+
+
+class LocationView(TemplateView):
+    template_name = 'landing/location.html'

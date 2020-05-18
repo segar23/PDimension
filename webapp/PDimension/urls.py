@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', landing_views.LandingHome.as_view(), name='landing-page'),
     path('about/', landing_views.AboutUsView.as_view(), name='about-us'),
+    path('location/', landing_views.LocationView.as_view(), name='location'),
     path('products/', include('products.urls')),
     path('register/', user_views.register, name='register'),
 ]
