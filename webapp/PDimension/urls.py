@@ -26,6 +26,7 @@ urlpatterns = [
     path('about/', landing_views.AboutUsView.as_view(), name='about-us'),
     path('location/', landing_views.LocationView.as_view(), name='location'),
     path('catalog/', landing_views.CatalogView.as_view(), name='catalog'),
+    path('pricing/', landing_views.ProductsView.as_view(), name='pricing'),
     path('products/', include('products.urls')),
     path('register/', user_views.register, name='register'),
 ]
