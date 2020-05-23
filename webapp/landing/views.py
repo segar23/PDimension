@@ -15,3 +15,7 @@ class LocationView (TemplateView):
 
 class CatalogView (TemplateView):
     template_name = 'landing/catalog.html'
+
+
+class ProductsView (TemplateView):
+    template_name = 'landing/products-temp.html'
