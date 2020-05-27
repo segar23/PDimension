@@ -24,18 +24,25 @@
 
     <header>
         <nav class="navbar navbar-expand-md navbar-light fixed-top">
-            <div class="navbar ml-auto mr-2">
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search">
-                    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
-                </form>
+            <a class="btn btn-primary" href="{% url 'landing-page' %}">Inicio</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="navbar ml-auto mr-2">
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search">
+                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
             </div>
         </nav>
     </header>
-    <header class="mb-4">
-        <div class="d-flex justify-content-center">
-            <a class="d-flex justify-content-center" href="{% url 'landing-page' %}">
-                <img class="img d-inline-block align-top" src="{% static 'logo.jpg' %}" width="50%" alt="">
+    <header class="container mb-4">
+        <div class="text-center col-6 col-sm-3 mx-auto">
+            <a href="{% url 'landing-page' %}">
+                <img class="rounded mx-auto d-block" src="{% static 'logo.jpg' %}" width="90%" alt="">
             </a>
         </div>
     </header>
