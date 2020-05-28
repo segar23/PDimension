@@ -3,21 +3,13 @@ $(document).ready(function() {
 console.log("Document is ready");
 
 
-  /*$( ".card" ).hover(
+  $( ".tileLanding" ).hover(
       function() {
         $(this).addClass('shadow-lg').css('cursor', 'pointer');
       }, function() {
         $(this).removeClass('shadow-lg');
       }
   );
-
-  $("#phoneCard").hover(
-      function() {
-        $(this).addClass('btn btn-primary').css('cursor', 'pointer');
-      }, function() {
-        $(this).removeClass('btn btn-primary');
-      }
-  );*/
 
 // document ready
 });
