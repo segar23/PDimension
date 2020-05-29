@@ -14,10 +14,12 @@ console.log("Document is ready");
   $(".contact-card").hover(
       function () {
         $(this).find('div .contact-info').css('color', 'white');
+        $(this).find('div .contact-info-detail').css('color', 'white');
       }, function () {
-        $(this).find('div .contact-info').css('color', '#444444');
+        $(this).find('div .contact-info').css('color', '#007bff');
+        $(this).find('div .contact-info-detail').css('color', '#444444');
       }
-  )
+  );
 
 // document ready
 });
