@@ -1,43 +1,82 @@
 {% extends 'landing/base.html' %}
 {% block content %}
 <main role="main" class="container">
-    <div class="row row-cols-1 row-cols-lg-4 row-cols-sm-2 justify-content-center">
-        <div class="mb-4 col-6 px-0">
-            <div class="card p-2 border-0 shadow rounded tileLanding" id="phoneCard">
-                <div class="row no-gutters">
-                    <div class="col-md-4 p-0 d-flex justify-content-center">
-                        <a class="btn btn-outline-primary my-2 my-sm-0"
-                               href="#" target="_blank">
-                                <i class="fas fa-phone fa-3x"></i></a>
-                    </div>
-                    <div class="col-md-8 p-0 align-self-center">
-                        <div class="card-body p-0">
-                            <h6 class="card-title m-0">(+57)(4) 412 - 9395</h6>
-                        </div>
-                    </div>
+    <div class="row row-cols-1 row-cols-lg-3 row-cols-sm-2 justify-content-center">
+
+        <div class="col-8 px-0 my-2">
+
+            <div class="card p-2 mx-1 mb-2 border-0 shadow rounded tileLanding btn btn-outline-primary contact-card">
+                <div class="card-img-top p-1 d-flex flex-row justify-content-center">
+                    <i class="fas fa-phone fa-3x ml-auto mx-2"></i></a>
+                    <p class="card-text m-0 mr-auto mx-2 my-auto">Llámanos!</p>
+                </div>
+                <div class="card-body p-1 align-self-center">
+                    <h6 class="card-title m-0 contact-info">(+57)(4)412-9395</h6>
+                </div>
+                <a class="stretched-link text-decoration-none" href="tel:0344129395" target="_blank"></a>
+            </div>
+
+            <div class="card p-2 mx-1 mb-2 border-0 shadow rounded tileLanding btn btn-outline-primary contact-card">
+                <div class="card-img-top p-1 d-flex flex-row justify-content-center">
+                    <i class="fab fa-whatsapp fa-3x ml-auto mx-2"></i></a>
+                    <p class="card-text m-0 mr-auto mx-2 my-auto">Escríbenos!</p>
+                </div>
+                <div class="card-body p-1 align-self-center">
+                    <h6 class="card-title m-0 contact-info">(+57) 300-677-0572</h6>
+                </div>
+                <a class="stretched-link text-decoration-none"
+                       href="https://wa.me/573006770572?text=Hola%20Papeleria%20Dimension!" target="_blank"></a>
+            </div>
+
+            <div class="card p-2 mx-1 border-0 shadow rounded tileLanding btn btn-outline-primary contact-card">
+                <div class="card-img-top p-1 d-flex flex-row justify-content-center">
+                    <i class="fas fa-at fa-3x ml-auto mx-2"></i></a>
+                    <p class="card-text m-0 mr-auto mx-2 my-auto">Escríbenos!</p>
+                </div>
+                <div class="card-body p-1 align-self-center">
+                    <h6 class="card-title m-0 contact-info">info@papeleriadimension.com</h6>
+                </div>
+                <a class="stretched-link text-decoration-none"
+                       href="mailto:info@papeleriadimension.com?Subject=Contacto%20Sitio%20Web" target="_blank"></a>
+            </div>
+
+        </div>
+
+        <div class="col-8 px-0 my-2">
+
+            <div class="card mx-1 h-100 border-0 shadow rounded tileLanding btn btn-outline-primary contact-card">
+                <div class="p-1 align-self-center">
+                    <h6 class="card-title m-0 contact-info">Carrera 74 # 44 - 33 | Medellín</h6>
+                </div>
+                <div class="card-body map-container p-2 d-flex justify-content-center">
+                    <iframe class="rounded" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.103345196697!2d-75.59449204956184!3d6.250111395453762!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e44290a19856677%3A0xf2ce95d789990213!2zUGFwZWxlcsOtYSBEaW1lbnNpw7Nu!5e0!3m2!1sen!2sus!4v1589833620443!5m2!1sen!2sus"
+                            width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen=""
+                            aria-hidden="false" tabindex="0"></iframe>
                 </div>
             </div>
+
         </div>
-        <div class="mb-4 col-6 px-0 mx-2">
-            <div class="card h-100 dropdown border-0 shadow rounded tileLanding" href="#" id="navbarDropdownMenuLink" role="button"
-                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <div class="card-img-top">
+
+        <div class="col-8 px-0 my-2">
+
+            <div class="card mx-1 h-100 dropdown border-0 shadow rounded tileLanding">
+                <div class="card-img-top h-75 align-self-center">
                     <div class="d-flex justify-content-center pt-2">
                         <i class="fas fa-home fa-7x"></i>
                     </div>
                 </div>
                 <div class="card-text text-center pb-2 pt-2">
-                    <h5>Conócenos</h5>
+                    <h5>¿Quiénes Somos?</h5>
                 </div>
+                <a class="stretched-link text-decoration-none" href="{% url 'about-us' %}"></a>
             </div>
-            <div class="dropdown-menu w-100 shadow-sm border-0 rounded tileLanding" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="{% url 'about-us' %}">¿Quiénes Somos?</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{% url 'location' %}">Punto de Venta</a>
-            </div>
+
+
         </div>
-        <div class="mb-4 col-6 px-0 mx-2" id="mainMenu">
-            <div class="card h-100 border-0 shadow rounded tileLanding">
+
+        <div class="col-8 px-0 my-2" id="mainMenu">
+
+            <div class="card mx-1 h-100 border-0 shadow rounded tileLanding">
                 <div class="d-flex justify-content-center pt-2">
                     <i class="fas fa-th fa-7x"></i>
                 </div>
@@ -46,9 +85,12 @@
                     <a class="stretched-link text-decoration-none" href="{% url 'catalog' %}"></a>
                 </div>
             </div>
+
         </div>
-        <div class="mb-4 col-6 px-0 mx-2" id="mainMenu">
-            <div class="card h-100 border-0 shadow rounded tileLanding">
+
+        <div class="col-8 px-0 my-2" id="mainMenu">
+
+            <div class="card mx-1 h-100 border-0 shadow rounded tileLanding">
                 <div class="d-flex justify-content-center pt-2">
                     <i class="fas fa-dollar-sign fa-7x"></i>
                 </div>
@@ -57,6 +99,7 @@
                     <a class="stretched-link text-decoration-none" href="{% url 'pricing' %}"></a>
                 </div>
             </div>
+
         </div>
     </div>
 </main>

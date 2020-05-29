@@ -11,5 +11,13 @@ console.log("Document is ready");
       }
   );
 
+  $(".contact-card").hover(
+      function () {
+        $(this).find('div .contact-info').css('color', 'white');
+      }, function () {
+        $(this).find('div .contact-info').css('color', '#444444');
+      }
+  )
+
 // document ready
 });
