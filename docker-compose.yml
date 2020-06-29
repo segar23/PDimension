@@ -10,8 +10,6 @@ services:
             - web
         volumes:
             - static_files:/srv
-        networks:
-            - default
     web:
         image: magic:latest
         container_name: webapp
@@ -19,9 +17,17 @@ services:
             - "8000"
         volumes:
             - static_files:/var/www
-        networks:
-            - default
+    db:
+        image: postgres:12.3
+        container_name: postgres
+        env_file:
+            - postgres.env
+        expose:
+            - "5432"
+        volumes:
+            - pgdata:/var/lib/postgresql/data
 networks:
     default:
 volumes:
     static_files:
+    pgdata:
