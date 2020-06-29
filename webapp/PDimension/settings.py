@@ -81,8 +81,12 @@ WSGI_APPLICATION = 'PDimension.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'pdimension',
+        'USER': 'pdimension_user',
+        'PASSWORD': 'PapeD2020*',
+        'HOST': 'postgres://db',
+        'PORT': '5432',
     }
 }
 
