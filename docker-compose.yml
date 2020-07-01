@@ -7,8 +7,6 @@ services:
         container_name: nginx
         ports:
             - "80:8080"
-        depends_on:
-            - web
         volumes:
             - static_files:/srv
         depends_on:

@@ -11,7 +11,7 @@ WORKDIR /var/www
 ADD . .
 
 RUN pip install -r requirements.txt && \
-    python manage.py migrate && \
+    python manage.py collectstatic && \
     chown -R www-data. /var/www
 
 EXPOSE 8080

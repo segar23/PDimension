@@ -11,7 +11,6 @@ WORKDIR /var/www
 ADD webapp/ .
 
 RUN pip install -r requirements.txt && \
-    python manage.py migrate && \
     chown -R www-data. /var/www
 
 USER www-data
