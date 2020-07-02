@@ -1,0 +1,24 @@
+{% extends 'landing/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="container w-50">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4 contact-info">Iniciar Sesión</legend>
+                {{ form|crispy}}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-primary" type="submit">Ingresar</button>
+                <small class="text-muted ml-2">
+                    <a href="#">Olvidaste tu Contraseña?</a>
+                </small>
+            </div>
+        </form>
+        {% comment %}<div class="border-top pt-3">
+            <small class="text-muted">
+                Don't Have An Account? <a class="ml-2" href="#">Registrarse</a>
+            </small>
+        </div>{% endcomment %}
+    </div>
+{% endblock %}
