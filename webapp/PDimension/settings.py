@@ -138,3 +138,5 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'landing-page'
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
