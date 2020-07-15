@@ -1,6 +1,20 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+
+
+class UserLoginForm(AuthenticationForm):
+    username = forms.CharField(label='Usuario:', required=False)
+    password = forms.CharField(label='Contraseña:', widget=forms.PasswordInput, required=False)
+
+    error_messages = {
+        'invalid_login': 'Nombre de usuario o contraseña son incorrectos',
+        'inactive': 'Esta cuenta se encuentra inactiva',
+    }
+
+    class Meta:
+        model = User
+        fields = ['username', 'password']
 
 
 class UserRegisterForm(UserCreationForm):
