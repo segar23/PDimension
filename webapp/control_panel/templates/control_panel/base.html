@@ -25,22 +25,18 @@
     <header>
         <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
             <div class="container">
-                <a class="navbar-brand mr-4" href="#">
-                    <img class="img-thumbnail d-inline-block align-top" src="{% static 'logo.jpg' %}" width="50%" height="50%" alt="">
-                </a>
+                <a class="navbar-brand" href="#">Panel de Control</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
                         aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarToggle">
                     <div class="navbar-nav mr-auto">
-                        <a class="nav-item nav-link" href="#">Home</a>
-                        <a class="nav-item nav-link" href="#">Productos</a>
+                        <a class="btn btn-outline-light" href="{% url 'landing-page' %}">Inicio</a>
                     </div>
                     <!-- Navbar Right Side -->
                     <div class="navbar-nav">
-                        <a class="nav-item nav-link" href="#">Iniciar Sesión</a>
-                        <a class="nav-item nav-link" href="#">Registrarse</a>
+                        <a class="btn btn-outline-light" href="{% url 'logout' %}">Cerrar Sesión</a>
                     </div>
                 </div>
             </div>
