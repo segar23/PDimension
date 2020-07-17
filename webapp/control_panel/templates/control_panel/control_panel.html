@@ -1,3 +1,38 @@
 {% extends 'control_panel/base.html' %}
 {% block content %}
+
+    <main role="main" class="container my-2">
+        <div class="row">
+
+            <div class="col-md-3">
+                <div class="content-section">
+                    <h3>Menu</h3>
+                    <p class="text-muted">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-light">
+                            <a class="stretched-link text-decoration-none"
+                               href="{% url 'categories' %}"></a>Categorías</li>
+                        <li class="list-group-item list-group-item-light">Productos</li>
+                        <li class="list-group-item list-group-item-light">Calendars</li>
+                        <li class="list-group-item list-group-item-light">etc</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% block control_panel %}
+                {% endblock %}
+
+            </div>
+        </div>
+    </main>
+
 {% endblock %}

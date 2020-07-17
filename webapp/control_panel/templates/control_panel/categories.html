@@ -1,0 +1,44 @@
+{% extends 'control_panel/control_panel.html' %}
+{% block control_panel %}
+
+    <div class="container">
+
+        <a class="btn btn-success mb-2" href="{% url 'category-create' %}">Agregar Categoría</a>
+
+        <hr/>
+
+        <table class="table table-striped w-75 mt-2">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Macro-Categoría</th>
+                    <th scope="col">Editar</th>
+                    <th scope="col">Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td scope="row">{{ forloop.counter }}</td>
+                        <td>{{ category.name }}</td>
+                        <td>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input"
+                                       id="defaultCheckedDisabled2" {% if category.isMacro %}checked{% endif %} disabled>
+                                <label class="custom-control-label" for="defaultCheckedDisabled2">Macro</label>
+                            </div>
+                        </td>
+                        <td>
+                            <a class="btn btn-warning" href="{% url 'category-update' category.id %}">Editar</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-danger" href="{% url 'category-delete' category.id %}">Eliminar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+{% endblock %}
