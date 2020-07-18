@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'dt7@zu&_j6#$p9z_kjknu8)jot6&5%q9#mn1!3dm7243iq*!k1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['papeleriadimension.com','www.papeleriadimension.com']
 
 
 # Application definition
