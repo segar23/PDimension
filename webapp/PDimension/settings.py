@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'control_panel.apps.ControlPanelConfig',
     'landing.apps.LandingConfig',
     'orders.apps.OrdersConfig',
     'products.apps.ProductsConfig',
@@ -81,8 +82,12 @@ WSGI_APPLICATION = 'PDimension.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'pdimension',
+        'USER': 'pdimension_user',
+        'PASSWORD': 'PapeD2020*',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
@@ -123,9 +128,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'landing-page'
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

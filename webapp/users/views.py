@@ -2,7 +2,8 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from .forms import UserRegisterForm
+from django.contrib.auth.views import LoginView
+from .forms import UserRegisterForm, UserLoginForm
 
 
 def register(request):
@@ -15,3 +16,8 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form': form, 'title': 'Registrarse'})
+
+
+class LoginView(LoginView):
+    template_name = 'users/login.html'
+    form_class = UserLoginForm
