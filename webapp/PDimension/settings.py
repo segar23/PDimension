@@ -25,7 +25,7 @@ SECRET_KEY = 'dt7@zu&_j6#$p9z_kjknu8)jot6&5%q9#mn1!3dm7243iq*!k1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['papeleriadimension.com','www.papeleriadimension.com']
+ALLOWED_HOSTS = ['papeleriadimension.com', 'www.papeleriadimension.com']
 
 
 # Application definition
