@@ -1,11 +1,9 @@
-from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import TemplateView, ListView, CreateView, DeleteView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, AccessMixin
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.db import IntegrityError
 from .models import Category
 from .forms import CategoryCreateForm
 

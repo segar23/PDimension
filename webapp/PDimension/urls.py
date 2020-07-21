@@ -29,7 +29,7 @@ urlpatterns = [
     path('catalog/', landing_views.CatalogView.as_view(), name='catalog'),
     path('pricing/', landing_views.ProductsView.as_view(), name='pricing'),
     path('products/', include('products.urls')),
-    path('register/', user_views.register, name='register'),
+    # path('register/', user_views.register, name='register'),
     path('login/', user_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('control-panel/', include('control_panel.urls')),
