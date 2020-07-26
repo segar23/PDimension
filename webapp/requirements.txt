@@ -1,4 +1,6 @@
 django
+django-storages
 django-crispy-forms
 image
 psycopg2
+boto3

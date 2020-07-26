@@ -17,6 +17,8 @@ services:
         build: .
         image: magic:latest
         container_name: webapp
+        env_file:
+            - django.env
         ports:
             - "8000"
         volumes:
