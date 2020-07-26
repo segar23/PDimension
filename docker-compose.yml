@@ -38,7 +38,7 @@ services:
           - django_build
         networks:
             - db_backend
-    
+
 networks:
     db_backend:
         external: true

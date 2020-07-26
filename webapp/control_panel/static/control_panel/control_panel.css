@@ -12,6 +12,10 @@ body {
     margin-bottom: 20px;
 }
 
+.table {
+    margin: auto;
+}
+
 .table th, .table td {
     text-align: center;
     vertical-align: middle;

@@ -21,6 +21,7 @@ class CategoriesView (LoginRequiredMixin, UserPassesTestMixin, AccessMixin, List
     template_name = 'control_panel/categories.html'
     context_object_name = 'categories'
     ordering = ['name']
+    paginate_by = 10
 
     def test_func(self):
         return self.request.user.is_staff
