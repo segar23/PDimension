@@ -4,8 +4,8 @@ from django.views.generic import TemplateView, ListView, CreateView, DeleteView,
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, AccessMixin
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .models import Category
-from .forms import CategoryCreateForm
+from .models import Category, Product
+from .forms import CategoryCreateForm, ProductCreateForm
 
 
 class ControlPanelView (LoginRequiredMixin, UserPassesTestMixin, AccessMixin, TemplateView):
@@ -14,6 +14,29 @@ class ControlPanelView (LoginRequiredMixin, UserPassesTestMixin, AccessMixin, Te
 
     def test_func(self):
         return self.request.user.is_staff
+
+
+class ProductsView (LoginRequiredMixin, UserPassesTestMixin, AccessMixin, ListView):
+    template_name = 'control_panel/products.html'
+    model = Product
+    context_object_name = 'products'
+    ordering = ['name']
+    paginate_by = 10
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class ProductsCreateView (LoginRequiredMixin, UserPassesTestMixin, AccessMixin, CreateView):
+    model = Product
+    form_class = ProductCreateForm
+    context_object_name = 'product'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get_success_url(self):
+        return reverse('products')
 
 
 class CategoriesView (LoginRequiredMixin, UserPassesTestMixin, AccessMixin, ListView):
