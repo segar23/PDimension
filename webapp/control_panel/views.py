@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.views.generic import TemplateView, ListView, CreateView, DeleteView, UpdateView
+from django.dispatch import receiver
+from django.db.models.signals import post_delete
+from django.views.generic import TemplateView, ListView, CreateView, DeleteView, UpdateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, AccessMixin
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -37,6 +39,35 @@ class ProductsCreateView (LoginRequiredMixin, UserPassesTestMixin, AccessMixin, 
 
     def get_success_url(self):
         return reverse('products')
+
+
+class PostsDetailView (DetailView):
+    model = Product
+
+
+class ProductsUpdateView (LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Product
+    form_class = ProductCreateForm
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get_success_url(self):
+        return reverse('product-detail', kwargs={'pk': self.object.pk})
+
+
+class ProductsDeleteView (LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Product
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get_success_url(self):
+        return reverse('products')
+
+    @receiver(post_delete, sender=Product)
+    def delete_image(sender, instance, using, **kwargs):
+        instance.picture.delete(save=False)
 
 
 class CategoriesView (LoginRequiredMixin, UserPassesTestMixin, AccessMixin, ListView):

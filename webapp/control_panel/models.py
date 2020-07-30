@@ -19,6 +19,9 @@ class Product (models.Model):
     macroCategories = models.ManyToManyField(Category, related_name='macroProduct', limit_choices_to={'isMacro': True})
     subCategories = models.ManyToManyField(Category, related_name='subProduct', limit_choices_to={'isMacro': False})
 
+    def __str__(self):
+        return self.name
+
 
 class ProductVariant(models.Model):
     name = models.CharField(max_length=50)
