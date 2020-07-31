@@ -20,3 +20,8 @@ body {
     text-align: center;
     vertical-align: middle;
 }
+
+.image-detail {
+    height: 200px;
+    width: 200px;
+}

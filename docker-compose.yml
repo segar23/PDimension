@@ -17,7 +17,9 @@ services:
         build: .
         image: magic:latest
         command: bash -c "
-            python manage.py collectstatic
+            python manage.py collectstatic &&
+            python manage.py makemigrations &&
+            python manage.py migrate
             "
         env_file:
             - django.env

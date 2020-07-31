@@ -1,0 +1,52 @@
+{% extends 'control_panel/control_panel.html' %}
+{% block control_panel %}
+
+    <div class="card">
+        <h5 class="card-header">{{ product.name }}</h5>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4 col-8">
+                    <img src="{{ product.picture.url }}" class="card-img image-detail" alt="...">
+                    {% if product.isReference %}
+                        <p class="card-text"><small class="text-muted">*Esta imagen es de referencia</small></p>
+                    {% endif %}
+                </div>
+                <div class="col-md-8 col-8 align-self-center">
+                        <h5 class="card-title my-2">Precio: $ {{ product.price }}</h5>
+                        <h6 class="card-subtitle text-muted my-2">SKU: {{ product.sku }}</h6>
+                        <p class="card-text my-2">{{ product.description }}</p>
+                </div>
+            </div>
+
+            <hr/>
+
+            <div class="row">
+                <div class="col-md-6 col-8 border-right">
+                    <h6 class="card-subtitle">Macro-categorías</h6>
+                    <ul class="list-group list-group-flush">
+                        {% for mCategory in product.macroCategories.all %}
+
+                            <li class="list-group-item">{{ mCategory.name }}</li>
+
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-md-6 col-8 border-left">
+                    <h6 class="card-subtitle">Sub-categorías</h6>
+                    <ul class="list-group list-group-flush">
+                        {% for sCategory in product.subCategories.all %}
+
+                            <li class="list-group-item">{{ sCategory.name }}</li>
+
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <hr/>
+            <a href="{% url 'product-update' product.id %}" class="btn btn-warning">Editar</a>
+            <a href="{% url 'product-delete' product.id %}" class="btn btn-danger">Eliminar</a>
+        </div>
+    </div>
+
+{% endblock %}
