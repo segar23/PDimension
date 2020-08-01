@@ -6,11 +6,11 @@ from django.views.generic import TemplateView, ListView, CreateView, DeleteView,
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, AccessMixin
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .models import Category, Product
-from .forms import CategoryCreateForm, ProductCreateForm
+from .models import Category, Product, ProductVariant
+from .forms import CategoryCreateForm, ProductCreateForm, ProductVariantForm
 
 
-class ControlPanelView (LoginRequiredMixin, UserPassesTestMixin, AccessMixin, TemplateView):
+class ControlPanelView(LoginRequiredMixin, UserPassesTestMixin, AccessMixin, TemplateView):
     template_name = 'control_panel/control_panel.html'
     model = User
 
@@ -18,7 +18,7 @@ class ControlPanelView (LoginRequiredMixin, UserPassesTestMixin, AccessMixin, Te
         return self.request.user.is_staff
 
 
-class ProductsView (LoginRequiredMixin, UserPassesTestMixin, AccessMixin, ListView):
+class ProductsView(LoginRequiredMixin, UserPassesTestMixin, AccessMixin, ListView):
     template_name = 'control_panel/products.html'
     model = Product
     context_object_name = 'products'
@@ -29,7 +29,7 @@ class ProductsView (LoginRequiredMixin, UserPassesTestMixin, AccessMixin, ListVi
         return self.request.user.is_staff
 
 
-class ProductsCreateView (LoginRequiredMixin, UserPassesTestMixin, AccessMixin, CreateView):
+class ProductsCreateView(LoginRequiredMixin, UserPassesTestMixin, AccessMixin, CreateView):
     model = Product
     form_class = ProductCreateForm
     context_object_name = 'product'
@@ -41,11 +41,37 @@ class ProductsCreateView (LoginRequiredMixin, UserPassesTestMixin, AccessMixin, 
         return reverse('products')
 
 
-class PostsDetailView (DetailView):
+class ProductVariantCreateView(LoginRequiredMixin, UserPassesTestMixin, AccessMixin, CreateView):
+    model = ProductVariant
+    form_class = ProductVariantForm
+    context_object_name = 'productvariant'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def form_valid(self, form):
+        form.instance.product = Product.objects.get(id=self.request.GET.get('id'))
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('product-detail', kwargs={'pk': self.request.GET.get('id')})
+
+
+class ProductVariantDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = ProductVariant
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get_success_url(self):
+        return reverse('product-detail', kwargs={'pk': self.request.GET.get('id')})
+
+
+class PostsDetailView(DetailView):
     model = Product
 
 
-class ProductsUpdateView (LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class ProductsUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Product
     form_class = ProductCreateForm
 
@@ -56,7 +82,7 @@ class ProductsUpdateView (LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return reverse('product-detail', kwargs={'pk': self.object.pk})
 
 
-class ProductsDeleteView (LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class ProductsDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Product
 
     def test_func(self):
@@ -70,7 +96,7 @@ class ProductsDeleteView (LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         instance.picture.delete(save=False)
 
 
-class CategoriesView (LoginRequiredMixin, UserPassesTestMixin, AccessMixin, ListView):
+class CategoriesView(LoginRequiredMixin, UserPassesTestMixin, AccessMixin, ListView):
     model = Category
     template_name = 'control_panel/categories.html'
     context_object_name = 'categories'
@@ -81,7 +107,7 @@ class CategoriesView (LoginRequiredMixin, UserPassesTestMixin, AccessMixin, List
         return self.request.user.is_staff
 
 
-class CategoriesCreateView (LoginRequiredMixin, AccessMixin, CreateView):
+class CategoriesCreateView(LoginRequiredMixin, AccessMixin, CreateView):
     model = Category
     form_class = CategoryCreateForm
     context_object_name = 'category'
@@ -90,7 +116,7 @@ class CategoriesCreateView (LoginRequiredMixin, AccessMixin, CreateView):
         return reverse('categories')
 
 
-class CategoriesDeleteView (LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class CategoriesDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Category
 
     def test_func(self):
@@ -100,7 +126,7 @@ class CategoriesDeleteView (LoginRequiredMixin, UserPassesTestMixin, DeleteView)
         return reverse('categories')
 
 
-class CategoriesUpdateView (LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class CategoriesUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Category
     fields = ['name', 'isMacro']
 
