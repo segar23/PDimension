@@ -13,8 +13,21 @@ services:
             - web
         networks:
             - db_backend
-    web:
+    django_build:
         build: .
+        image: magic:latest
+        command: bash -c "
+            python manage.py collectstatic &&
+            python manage.py makemigrations &&
+            python manage.py migrate
+            "
+        env_file:
+            - django.env
+        volumes:
+            - static_files:/var/www
+        networks:
+            - db_backend
+    web:
         image: magic:latest
         container_name: webapp
         env_file:
@@ -23,6 +36,8 @@ services:
             - "8000"
         volumes:
             - static_files:/var/www
+        depends_on:
+          - django_build
         networks:
             - db_backend
 

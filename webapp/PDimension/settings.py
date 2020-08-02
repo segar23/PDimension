@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['papeleriadimension.com', 'www.papeleriadimension.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     'control_panel.apps.ControlPanelConfig',
     'landing.apps.LandingConfig',
     'orders.apps.OrdersConfig',
-    'products.apps.ProductsConfig',
     'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -143,3 +142,12 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'landing-page'
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+AWS_QUERYSTRING_AUTH = False
+

@@ -1,0 +1,32 @@
+{% extends 'control_panel/control_panel.html' %}
+{% block control_panel %}
+
+    <div class="container">
+
+        <a class="btn btn-success mb-2" href="{% url 'product-create' %}">Agregar Producto</a>
+
+        <hr/>
+
+        {% for product in products %}
+            <div class="card my-2 w-75 tileLanding">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="{{ product.picture.url }}" class="card-img" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">Precio: $ {{ product.price }}</p>
+                            <p class="card-text">{{ product.description }}</p>
+                            <p class="card-text"><small class="text-muted">SKU: {{ product.sku }}</small></p>
+                        </div>
+                    </div>
+                </div>
+                <a class="stretched-link text-decoration-none" href="{% url 'product-detail' product.id %}"></a>
+            </div>
+        {% endfor %}
+
+
+    </div>
+
+{% endblock %}
