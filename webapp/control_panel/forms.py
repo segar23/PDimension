@@ -2,7 +2,7 @@ from decimal import Decimal
 
 from django import forms
 from django.forms import ModelForm
-from .models import Category, Product
+from .models import Category, Product, ProductVariant
 
 
 class CategoryCreateForm (ModelForm):
@@ -42,3 +42,15 @@ class ProductCreateForm (ModelForm):
     class Meta:
         model = Product
         fields = ['picture', 'name', 'sku', 'price', 'description', 'isReference', 'macroCategories', 'subCategories']
+
+
+class ProductVariantForm (ModelForm):
+    name = forms.CharField(label='Nombre del Sub-Tipo:', required=True)
+
+    def clean_name(self):
+        name = self.cleaned_data['name'].title()
+        return name
+
+    class Meta:
+        model = ProductVariant
+        fields = ['name']
