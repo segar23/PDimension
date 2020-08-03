@@ -13,7 +13,7 @@ class Product (models.Model):
     picture = models.ImageField(default='default.jpg', upload_to='product_pics')
     name = models.CharField(max_length=250)
     sku = models.IntegerField(unique=True)
-    price = models.DecimalField(decimal_places=2, max_digits=8)
+    price = models.DecimalField(decimal_places=0, max_digits=8)
     description = models.TextField(blank=True)
     isReference = models.BooleanField(default=True)
     macroCategories = models.ManyToManyField(Category, related_name='macroProduct', limit_choices_to={'isMacro': True})

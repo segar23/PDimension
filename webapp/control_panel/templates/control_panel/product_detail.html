@@ -1,4 +1,5 @@
 {% extends 'control_panel/control_panel.html' %}
+{% load humanize %}
 {% block control_panel %}
 
     <div class="card">
@@ -12,7 +13,7 @@
                     {% endif %}
                 </div>
                 <div class="col-md-8 col-8 align-self-center">
-                        <h5 class="card-title my-2">Precio: $ {{ product.price }}</h5>
+                        <h5 class="card-title my-2">Precio: $ {{ product.price|intcomma }}</h5>
                         <h6 class="card-subtitle text-muted my-2">SKU: {{ product.sku }}</h6>
                         <p class="card-text my-2">{{ product.description }}</p>
                 </div>

@@ -22,7 +22,7 @@ class ProductCreateForm (ModelForm):
     picture = forms.ImageField(label='Imagen:', required=True)
     name = forms.CharField(label='Nombre del Producto:', required=True)
     sku = forms.IntegerField(label='SKU:', required=True, error_messages={'unique': 'Este SKU ya existe'})
-    price = forms.DecimalField(label='Precio', max_digits=8, min_value=Decimal('0.01'), required=True,
+    price = forms.DecimalField(label='Precio', max_digits=8, min_value=Decimal('1'), required=True,
                                error_messages={'min_value': 'El Precio no puede ser negativo'})
     description = forms.CharField(label='Descripción:', widget=forms.Textarea)
     isReference = forms.BooleanField(label='Es Imagen de Referencia?', required=False)
