@@ -30,6 +30,14 @@
         </div>
 
     <br>
+        <div class="row">
+            <div class="col-md-10 mx-auto d-flex justify-content-center">
+                {% for category in macro_categories %}
+                    <a class="btn btn-outline-primary btn-lg mx-2" href="{% url 'catalog' %}?cat={{ category.name }}" role="button">{{ category.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    <br>
 
         {% for product in products %}
             <div class="card my-2 col-8 tileLanding mx-auto">

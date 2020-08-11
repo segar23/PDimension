@@ -2,7 +2,7 @@ from functools import reduce
 from operator import or_ as OR
 from django.db.models import Q
 from django.views.generic import TemplateView, ListView
-from control_panel.models import Product
+from control_panel.models import Product, Category
 
 
 class LandingHome (TemplateView):
@@ -23,11 +23,23 @@ class CatalogView (ListView):
     context_object_name = 'products'
     paginate_by = 15
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['macro_categories'] = Category.objects.filter(isMacro=True)
+        context['sub-categories'] = Category.objects.filter(isMacro=False)
+        return context
+
     def get_queryset(self):
         query = self.request.GET.get('search')
+        cat = self.request.GET.get('cat')
         complete_set = Product.objects.all()
-        if query is None or query == '':
+        print('q:', query)
+        print('c:', cat)
+
+        if (query is None or query == '') and (cat is None):
             return complete_set
+        elif cat is not None:
+            return Product.objects.filter(macroCategories__name__icontains=cat)
         else:
             query = reduce(OR, (Q(name__icontains=item) | Q(description__icontains=item) for item in query.split()))
             return Product.objects.filter(query)
