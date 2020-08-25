@@ -2,7 +2,7 @@ from decimal import Decimal
 
 from django import forms
 from django.forms import ModelForm
-from .models import Category, Product, ProductVariant
+from .models import Category, Product, ProductVariant, ProductSearchTag
 
 
 class CategoryCreateForm (ModelForm):
@@ -53,4 +53,16 @@ class ProductVariantForm (ModelForm):
 
     class Meta:
         model = ProductVariant
+        fields = ['name']
+
+
+class ProductSearchTagForm (ModelForm):
+    name = forms.CharField(label='Nombre del Tag:', required=True)
+
+    def clean_name(self):
+        name = self.cleaned_data['name'].title()
+        return name
+
+    class Meta:
+        model = ProductSearchTag
         fields = ['name']
