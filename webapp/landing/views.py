@@ -41,5 +41,5 @@ class CatalogView (ListView):
         elif cat is not None:
             return Product.objects.filter(macroCategories__name__icontains=cat)
         else:
-            query = reduce(OR, (Q(name__icontains=item) | Q(description__icontains=item) for item in query.split()))
+            query = reduce(OR, (Q(name__icontains=item) | Q(productsearchtag__name__icontains=item) for item in query.split()))
             return Product.objects.filter(query)

@@ -6,8 +6,8 @@ from django.views.generic import TemplateView, ListView, CreateView, DeleteView,
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, AccessMixin
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .models import Category, Product, ProductVariant
-from .forms import CategoryCreateForm, ProductCreateForm, ProductVariantForm
+from .models import Category, Product, ProductVariant, ProductSearchTag
+from .forms import CategoryCreateForm, ProductCreateForm, ProductVariantForm, ProductSearchTagForm
 
 
 class ControlPanelView(LoginRequiredMixin, UserPassesTestMixin, AccessMixin, TemplateView):
@@ -59,6 +59,32 @@ class ProductVariantCreateView(LoginRequiredMixin, UserPassesTestMixin, AccessMi
 
 class ProductVariantDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = ProductVariant
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get_success_url(self):
+        return reverse('product-detail', kwargs={'pk': self.request.GET.get('id')})
+
+
+class ProductSearchTagCreateView(LoginRequiredMixin, UserPassesTestMixin, AccessMixin, CreateView):
+    model = ProductSearchTag
+    form_class = ProductSearchTagForm
+    context_object_name = 'productsearchtag'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def form_valid(self, form):
+        form.instance.product = Product.objects.get(id=self.request.GET.get('id'))
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('product-detail', kwargs={'pk': self.request.GET.get('id')})
+
+
+class ProductSearchTagDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = ProductSearchTag
 
     def test_func(self):
         return self.request.user.is_staff

@@ -69,6 +69,33 @@
                     {% endfor %}
                 </div>
             </div>
+
+            <hr/>
+            <div>
+
+                <h6 class="mr-2 d-inline">Tags de Búsqueda</h6>
+                <a href="{% url 'productsearchtag-create' %}?id={{ product.id }}"
+                   class="btn btn-outline-success btn-sm d-inline ml-2">Agregar Tag</a>
+
+                <div class="row my-2">
+                    {% for tag in product.productsearchtag_set.all %}
+                        <div class="col-md-3 m-2 p-0">
+
+                            <form method="POST" action="{% url "productsearchtag-delete" tag.id %}?id={{ product.id }}">
+                                {% csrf_token %}
+                                <div class="card tileLanding">
+                                    <div class="card-body d-flex justify-content-between align-items-center">
+                                        <h6 class="card-title m-0">{{ tag.name }}</h6>
+                                        <button type="submit" class="btn btn-outline-danger fas fa-trash d-inline"></button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
             <hr/>
             <a href="{% url 'product-update' product.id %}" class="btn btn-warning">Editar</a>
             <a href="{% url 'product-delete' product.id %}" class="btn btn-danger">Eliminar</a>
