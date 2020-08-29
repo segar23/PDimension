@@ -18,9 +18,27 @@ class UserLoginForm(AuthenticationForm):
 
 
 class UserRegisterForm(UserCreationForm):
-    email = forms.EmailField(required=True)
-    first_name = forms.CharField(required=True)
-    last_name = forms.CharField(required=True)
+    email = forms.EmailField(label='Correo Electrónico', required=True)
+    first_name = forms.CharField(label='Nombre', required=True)
+    last_name = forms.CharField(label='Apellido', required=True)
+    username = forms.CharField(label='Nombre de Usuario', required=True,
+                               error_messages={'unique': 'Este Nombre de Usuario ya existe'})
+
+    def clean_email(self):
+        email = self.cleaned_data['email'].lower()
+        return email
+
+    def clean_first_name(self):
+        first_name = self.cleaned_data['first_name'].title()
+        return first_name
+
+    def clean_last_name(self):
+        last_name = self.cleaned_data['last_name'].title()
+        return last_name
+
+    def clean_username(self):
+        username = self.cleaned_data['username'].lower()
+        return username
 
     class Meta:
         model = User
