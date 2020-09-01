@@ -1,0 +1,24 @@
+{% autoescape off %}
+    <h3>Restablecer Contraseña</h3>
+    <p>
+        Has recibido este correo electrónico porque ha solicitado restablecer la contraseña para tu cuenta
+        en Papelería Dimensión.
+    </p>
+    <p>
+            Para restablecer tu contraseña da click en el siguiente link
+    </p>
+
+
+    {{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}
+    <br>
+    <p>
+        En caso de que hayas olvidado tu usario, este es <bold>{{ user.username }}</bold>
+    </p>
+
+    <p>
+        ¡Gracias por usar nuestro sitio!
+    </p>
+    <p>
+        Equipo Papelería Dimensión
+    </p>
+{% endautoescape %}
