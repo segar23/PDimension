@@ -12,7 +12,7 @@
     {{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}
     <br>
     <p>
-        En caso de que hayas olvidado tu usario, este es <bold>{{ user.username }}</bold>
+        En caso de que hayas olvidado tu usario, es <bold>{{ user.username }}</bold>
     </p>
 
     <p>
