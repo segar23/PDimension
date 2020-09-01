@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, SetPasswordForm
 
 
 class UserLoginForm(AuthenticationForm):
@@ -43,3 +43,21 @@ class UserRegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
+
+
+class UserUpdateForm (forms.ModelForm):
+    def clean_email(self):
+        email = self.cleaned_data['email'].lower()
+        return email
+
+    def clean_first_name(self):
+        first_name = self.cleaned_data['first_name'].title()
+        return first_name
+
+    def clean_last_name(self):
+        last_name = self.cleaned_data['last_name'].title()
+        return last_name
+
+    class Meta:
+        model = User
+        fields = ['email', 'first_name', 'last_name']
