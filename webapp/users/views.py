@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, AccessMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse
 from django.shortcuts import render
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, PasswordChangeView, SetPasswordForm
 from django.views.generic import CreateView, TemplateView, FormView
@@ -44,6 +45,7 @@ class ProfileView(LoginRequiredMixin, AccessMixin, FormView):
 
         if form.is_valid():
             form.save()
+            messages.success(request, f'Tu cuenta ha sido actualizada!')
 
         context = {'form': form}
 
@@ -59,4 +61,5 @@ class AccountChangePassword(LoginRequiredMixin, AccessMixin, PasswordChangeView)
     form_class = SetPasswordForm
 
     def get_success_url(self):
-        return reverse('account')
+        messages.success(self.request, f'Tu contraseña ha sido actualizada!')
+        return reverse('profile')
