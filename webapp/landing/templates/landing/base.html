@@ -38,6 +38,12 @@
                             {% if user.is_staff %}
                                 <a class="btn btn-primary mx-1" href="{% url 'control-panel' %}">Administrar</a>
                             {% endif %}
+                            {% if user.cart %}
+                            {% else %}
+                                <a class="btn btn-primary" href="#">
+                                    <i class="fas fa-shopping-cart fa-lg" style="color: white"></i>
+                                </a>
+                            {% endif %}
                             <a class="btn btn-primary mx-1" href="{% url 'logout' %}">Cerrar Sesión</a>
                         {% else %}
                             <a class="btn btn-primary mx-2" href="{% url 'login' %}">Iniciar Sesión</a>
