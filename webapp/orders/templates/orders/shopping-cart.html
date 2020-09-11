@@ -1,0 +1,45 @@
+{% extends 'users/account.html' %}
+{% load humanize %}
+{% block account %}
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <h3>Carrito de Compras</h3>
+        </div>
+        <hr/>
+        {% for item in items %}
+            <div class="card my-2">
+                <div class="row no-gutters">
+                    <div class="col-md-2">
+                        <img src="{{ item.product.picture.url }}" class="card-img" alt="...">
+                    </div>
+                    <div class="col-md-6 align-self-center border-right">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.product.name }}</h5>
+                            <p class="card-text">Precio: $ {{ item.product.price|intcomma }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 d-flex flex-column justify-content-center">
+                        <div class="row h-50">
+                            <div class="d-flex justify-content-center col">
+                                <p class="card-text my-auto ml-2">Cantidad: </p>
+                                <form class="form-inline">
+                                    <a class="btn btn-primary ml-2" href="#">-</a>
+                                    <div class="w-25 d-flex justify-content-center px-0">
+                                        <input class="form-control form-control-sm w-75" style="text-align: center"
+                                               value="{{ item.quantity }}">
+                                    </div>
+                                    <a class="btn btn-primary mr-2" href="#">+</a>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row h-50">
+                            <div class="d-flex align-items-center col ml-2">
+                                <p class="card-text my-auto">Sub-Total: {{ item.get_sub_total|intcomma }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

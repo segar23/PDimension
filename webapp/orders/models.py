@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from control_panel.models import Product
 
 
-# Create your models here.
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
@@ -24,5 +23,6 @@ class Cart(models.Model):
 
     def clear_cart(self):
         return self.products.clear()
+
 
 

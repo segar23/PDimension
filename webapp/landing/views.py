@@ -33,8 +33,6 @@ class CatalogView (ListView):
         query = self.request.GET.get('search')
         cat = self.request.GET.get('cat')
         complete_set = Product.objects.all()
-        print('q:', query)
-        print('c:', cat)
 
         if (query is None or query == '') and (cat is None):
             return complete_set

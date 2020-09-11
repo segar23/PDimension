@@ -38,10 +38,14 @@
                             {% if user.is_staff %}
                                 <a class="btn btn-primary mx-1" href="{% url 'control-panel' %}">Administrar</a>
                             {% endif %}
-                            {% if user.cart %}
+                            {% if user.cart.products %}
+                                <a class="btn btn-primary" href="{% url 'view-cart' %}">
+                                    <i class="fas fa-cart-plus fa-lg mr-2" style="color: white"></i>
+                                    {{ user.cart.products.count }}
+                                </a>
                             {% else %}
                                 <a class="btn btn-primary" href="#">
-                                    <i class="fas fa-shopping-cart fa-lg" style="color: white"></i>
+                                    <i class="fas fa-shopping-cart fa-lg mr-2" style="color: white"></i>
                                 </a>
                             {% endif %}
                             <a class="btn btn-primary mx-1" href="{% url 'logout' %}">Cerrar Sesión</a>
