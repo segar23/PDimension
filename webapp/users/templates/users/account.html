@@ -10,7 +10,8 @@
                     <ul class="list-group">
                         <li class="list-group-item list-group-item-light">
                             <a class="stretched-link text-decoration-none"
-                               href="{% url 'view-cart' %}"></a>Carrito de Compras</li>
+                               href="{% url 'view-cart' %}"></a>Carrito de Compras
+                            <span class="badge badge-primary">{{ user.cart.products.count }}</span></li>
                         <li class="list-group-item list-group-item-light">
                             <a class="stretched-link text-decoration-none"
                                href="#"></a>Órdenes</li>
@@ -34,31 +35,6 @@
                 {% endblock %}
 
 
-                {% if is_paginated %}
-
-                    <div class="text-center my-2">
-
-                        {% if page_obj.has_previous %}
-                            <a class="btn btn-outline-primary mb-4" href="?page=1">Inicio</a>
-                            <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
-                        {% endif %}
-
-                        {% for num in page_obj.paginator.page_range %}
-                            {% if page_obj.number == num %}
-                                <a class="btn btn-primary mb-4" href="?page={{ num }}">{{ num }}</a>
-                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                                <a class="btn btn-outline-primary mb-4" href="?page={{ num }}">{{ num }}</a>
-                            {% endif %}
-                        {% endfor %}
-
-                        {% if page_obj.has_next %}
-                            <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
-                            <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.paginator.num_pages }}">Fin</a>
-                        {% endif %}
-
-                    </div>
-
-                {% endif %}
 
             </div>
         </div>
