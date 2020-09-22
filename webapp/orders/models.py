@@ -25,4 +25,32 @@ class Cart(models.Model):
         return self.products.clear()
 
 
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    isBusinessUser = models.BooleanField(default=False)
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone = models.CharField(max_length=15)
+    enterprise = models.CharField(max_length=100, null=True)
+    verification_digit = models.IntegerField(max_length=1, null=True)
+    person_id = models.IntegerField(max_length=12)
+    address = models.CharField(max_length=100)
+    needsEReceipt = models.BooleanField(default=False)
 
+    class City(models.TextChoices):
+        MEDELLIN = 'Medellín'
+        ENVIGADO = 'Envigado'
+        SABANETA = 'Sabaneta'
+        ITAGUI = 'Itagüí'
+        BELLO = 'Bello'
+        ESTRELLA = 'La Estrella'
+
+    city = models.CharField(max_length=100, choices=City.choices)
+
+    class PaymentMethod(models.TextChoices):
+        CASH = 'Pago contra entrega en efectivo'
+        TRANSFER = 'Transferencia cuando llegue el pedido'
+        QR = 'Código QR al mensajero'
+
+    payment = models.CharField(choices=PaymentMethod.choices)
+    comments = models.TextField
