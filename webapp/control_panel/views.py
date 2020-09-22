@@ -1,4 +1,7 @@
 from django.shortcuts import render, redirect
+from functools import reduce
+from operator import or_ as OR
+from django.db.models import Q
 from django.urls import reverse
 from django.dispatch import receiver
 from django.db.models.signals import post_delete
@@ -27,6 +30,16 @@ class ProductsView(LoginRequiredMixin, UserPassesTestMixin, AccessMixin, ListVie
 
     def test_func(self):
         return self.request.user.is_staff
+
+    def get_queryset(self):
+        query = self.request.GET.get('search')
+        complete_set = Product.objects.all()
+
+        if query is None or query == '':
+            return complete_set
+        else:
+            query = reduce(OR, (Q(name__icontains=item) | Q(sku__icontains=item) for item in query.split()))
+            return Product.objects.filter(query)
 
 
 class ProductsCreateView(LoginRequiredMixin, UserPassesTestMixin, AccessMixin, CreateView):

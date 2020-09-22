@@ -1,0 +1,26 @@
+{% extends 'users/account.html' %}
+{% load crispy_forms_tags %}
+{% block account %}
+    <div class="container">
+        <div class="card my-2 w-75">
+            <div class="card-body">
+                <h5 class="card-title">{{ user.username }}</h5>
+                <br/>
+                <form method="POST">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4 contact-info">Editar Perfil</legend>
+                        {{ form|crispy}}
+                    </fieldset>
+                    <div class="form-group">
+                        <a class="btn btn-outline-warning" href="{% url 'change-password' %}">Cambiar Contraseña</a>
+                    </div>
+                    <hr/>
+                    <div class="form-group">
+                        <button class="btn btn-outline-primary" type="submit">Actualizar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
