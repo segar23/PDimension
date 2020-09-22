@@ -8,6 +8,24 @@
 
         <hr/>
 
+        <div class="row">
+            <div class="col-md-8">
+                <form class="form" action="{% url 'products' %}" method="GET">
+                    <div class="form-row">
+                        <div class="col-10">
+                            <input type="text" class="form-control form-control-lg mr-1" id="searchText" name="search" placeholder="Buscar...">
+                        </div>
+                        <div class="col align-self-center">
+                            <button type="submit" class="btn btn-primary btn-lg fas fa-search ml-1"></button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+
+
         {% for product in products %}
             <div class="card my-2 w-75 tileLanding">
                 <div class="row no-gutters">
