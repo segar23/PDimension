@@ -1,7 +1,8 @@
 from django.urls import path
 from users.views import AccountView, ProfileView, AccountChangePassword
 from .views import add_to_cart, ShoppingCartView, increase_item, remove_from_cart, clear_cart, TypeOfUserView, \
-    OrderBizCreateView, ConfirmOrderView, OrderBizUpdateView, FinalOrderView, OrderUserCreateView, OrderUserUpdateView
+    OrderBizCreateView, ConfirmOrderView, OrderBizUpdateView, FinalOrderView, OrderUserCreateView, OrderUserUpdateView, \
+    MyOrdersView, MyOrderDetailsView
 
 urlpatterns = [
     path('', AccountView.as_view(), name='account'),
@@ -10,10 +11,12 @@ urlpatterns = [
     path('cart/decrease/<int:pk>/', remove_from_cart, name='decrease-item'),
     path('cart/clear/', clear_cart, name='clear-cart'),
     path('pre-order/', TypeOfUserView.as_view(), name='type-of-user'),
+    path('my-orders/', MyOrdersView.as_view(), name='my-orders'),
+    path('my-orders/details/<int:pk>/', MyOrderDetailsView.as_view(), name='my-order-details'),
     path('order-business/', OrderBizCreateView.as_view(), name='order-biz'),
-    path('order-business/update/<int:pk>', OrderBizUpdateView.as_view(), name='order-biz-update'),
+    path('order-business/update/<int:pk>/', OrderBizUpdateView.as_view(), name='order-biz-update'),
     path('order-user/', OrderUserCreateView.as_view(), name='order-user'),
-    path('order-user/update/<int:pk>', OrderUserUpdateView.as_view(), name='order-user-update'),
+    path('order-user/update/<int:pk>/', OrderUserUpdateView.as_view(), name='order-user-update'),
     path('confirm-order/<int:pk>/', ConfirmOrderView.as_view(), name='confirm'),
     path('final-order/<int:pk>/', FinalOrderView.as_view(), name='finish'),
     path('cart/view/', ShoppingCartView.as_view(), name='view-cart'),

@@ -39,7 +39,7 @@ class Order(models.Model):
     person_id = models.IntegerField()
     address = models.CharField(max_length=100)
     needsEReceipt = models.BooleanField(default=False)
-    created = models.DateField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
     isFinalized = models.BooleanField(default=False)
     total = models.DecimalField(decimal_places=2, max_digits=14, default=Decimal(0))
     shipping = models.DecimalField(decimal_places=2, max_digits=7, default=Decimal(4500))

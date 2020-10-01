@@ -123,14 +123,5 @@
                 </tbody>
             </table>
         </div>
-        <hr/>
-        <div class="d-flex justify-content-around">
-            {% if order.isbusinessuser %}
-                <a class="btn btn-warning" href="{% url 'order-biz-update' order.id %}" style="color: white">Editar Información</a>
-            {% else %}
-                <a class="btn btn-warning" href="{% url 'order-user-update' order.id %}" style="color: white">Editar Información</a>
-            {% endif %}
-            <a class="btn btn-success" href="{% url 'finish' order.id %}">Finalizar Compra</a>
-        </div>
     </div>
 {% endblock %}

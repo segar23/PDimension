@@ -216,3 +216,35 @@ class FinalOrderView(LoginRequiredMixin, AccessMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['order'] = order
         return context
+
+
+class MyOrdersView(LoginRequiredMixin, AccessMixin, ListView):
+    model = Order
+    template_name = 'orders/my-orders.html'
+    context_object_name = 'orders'
+    paginate_by = 10
+
+    def get_queryset(self):
+        queryset = Order.objects.filter(user__exact=self.request.user).order_by('-created')
+        return queryset
+
+
+class MyOrderDetailsView(LoginRequiredMixin, UserPassesTestMixin, AccessMixin, ListView):
+    model = OrderItem
+    template_name = 'orders/order-detail.html'
+    context_object_name = 'items'
+    paginate_by = 10
+
+    def test_func(self):
+        current_order = Order.objects.get(id=self.kwargs.get('pk'))
+        return current_order.user == self.request.user
+
+    def get_queryset(self):
+        order = Order.objects.get(id=self.kwargs.get('pk'))
+        queryset = order.products.all().order_by('product__name')
+        return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['order'] = Order.objects.get(id=self.kwargs.get('pk'))
+        return context

@@ -1,0 +1,32 @@
+{% extends 'users/account.html' %}
+{% load humanize %}
+{% block account %}
+    <div class="container">
+        <table class="table table-striped w-100 table-sm">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">No. de Orden</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Método de Pago</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Ver Orden</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td scope="row">{{ order.id }}</td>
+                        <td>{{ order.status }}</td>
+                        <td>{{ order.created|date:"SHORT_DATE_FORMAT" }}</td>
+                        <td>{{ order.payment }}</td>
+                        <td>$ {{ order.total }}</td>
+                        <td>
+                            <a class="btn btn-warning" href="{% url 'my-order-details' order.id %}">Ver</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
