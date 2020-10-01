@@ -225,7 +225,8 @@ class MyOrdersView(LoginRequiredMixin, AccessMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        queryset = Order.objects.filter(user__exact=self.request.user).order_by('-created')
+        Order.objects.filter(isFinalized=False).delete()
+        queryset = Order.objects.filter(user__exact=self.request.user, isFinalized=True).order_by('-created')
         return queryset
 
 
