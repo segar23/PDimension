@@ -8,7 +8,7 @@
         <div class="d-flex justify-content-around">
             {% if items %}
                 <a class="btn btn-warning" href="{% url 'clear-cart' %}" style="color: white">Vaciar Carrito</a>
-                <a class="btn btn-success" href="#">Continuar Compra</a>
+                <a class="btn btn-success" href="{% url 'type-of-user' %}">Continuar Compra</a>
             {% else %}
                 <h6 class="text-muted">Tu Carrito está vacio</h6>
             {% endif %}

@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.db import models
 from django.contrib.auth.models import User
 from control_panel.models import Product
@@ -27,30 +29,54 @@ class Cart(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    products = models.ManyToManyField(OrderItem)
     isBusinessUser = models.BooleanField(default=False)
     name = models.CharField(max_length=100)
     email = models.EmailField()
     phone = models.CharField(max_length=15)
     enterprise = models.CharField(max_length=100, null=True)
-    verification_digit = models.IntegerField(max_length=1, null=True)
-    person_id = models.IntegerField(max_length=12)
+    verification_digit = models.IntegerField(null=True)
+    person_id = models.IntegerField()
     address = models.CharField(max_length=100)
     needsEReceipt = models.BooleanField(default=False)
+    created = models.DateField(auto_now_add=True)
+    isFinalized = models.BooleanField(default=False)
+    total = models.DecimalField(decimal_places=2, max_digits=14, default=Decimal(0))
+    shipping = models.DecimalField(decimal_places=2, max_digits=7, default=Decimal(4500))
 
-    class City(models.TextChoices):
-        MEDELLIN = 'Medellín'
-        ENVIGADO = 'Envigado'
-        SABANETA = 'Sabaneta'
-        ITAGUI = 'Itagüí'
-        BELLO = 'Bello'
-        ESTRELLA = 'La Estrella'
+    class CityChoices(models.TextChoices):
+        MEDELLIN = 'MDE', 'Medellín'
+        ENVIGADO = 'ENV', 'Envigado'
+        SABANETA = 'SBT', 'Sabaneta'
+        ITAGUI = 'ITG', 'Itagüí'
+        ESTRELLA = 'EST', 'La Estrella'
+        BELLO = 'BLO', 'Bello'
+        GIRARDOTA = 'GIR', 'Girardota'
+        COPACABANA = 'COP', 'Copacabana'
+        CALDAS = 'CAL', 'Caldas'
 
-    city = models.CharField(max_length=100, choices=City.choices)
+    city = models.CharField(max_length=100, choices=CityChoices.choices, default=CityChoices.MEDELLIN)
 
     class PaymentMethod(models.TextChoices):
-        CASH = 'Pago contra entrega en efectivo'
-        TRANSFER = 'Transferencia cuando llegue el pedido'
-        QR = 'Código QR al mensajero'
+        CASH = 'EFECTIVO', 'Pago contra entrega en efectivo'
+        TRANSFER = 'TRANSFERENCIA', 'Transferencia cuando llegue el pedido'
+        QR = 'QR', 'Código QR al mensajero'
 
-    payment = models.CharField(choices=PaymentMethod.choices)
-    comments = models.TextField
+    payment = models.CharField(max_length=140, choices=PaymentMethod.choices, default=PaymentMethod.CASH)
+    comments = models.TextField()
+
+    class OrderStatus(models.TextChoices):
+        UNREAD = 'Sin Leer', 'Sin Leer'
+        OPEN = 'Abierta', 'Abierta'
+        CLOSED = 'Cerrada', 'Cerrada'
+
+    status = models.CharField(max_length=140, choices=OrderStatus.choices, default=OrderStatus.UNREAD)
+
+    def adjust_shipping(self):
+        if self.city in (self.CityChoices.GIRARDOTA, self.CityChoices.COPACABANA, self.CityChoices.CALDAS):
+            if self.total > 100000:
+                self.shipping = Decimal(0)
+            else:
+                self.shipping = 6000
+        elif self.total > 60000:
+            self.shipping = Decimal(0)

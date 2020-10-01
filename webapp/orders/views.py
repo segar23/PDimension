@@ -1,9 +1,11 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, AccessMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView
-
+from django.urls import reverse
+from django.views.generic import ListView, TemplateView, CreateView, UpdateView
 from control_panel.models import Product
-from .models import Cart, OrderItem
+from .models import Cart, OrderItem, Order
+from .forms import OrderBizCreateForm, OrderUserCreateForm
 
 
 @login_required
@@ -61,32 +63,156 @@ def clear_cart(request):
     return redirect('view-cart')
 
 
-class ShoppingCartView(ListView):
+class ShoppingCartView(LoginRequiredMixin, AccessMixin, ListView):
     template_name = 'orders/shopping-cart.html'
     model = OrderItem
     context_object_name = 'items'
     paginate_by = 10
-    ordering = ['product.name']
+    ordering = ['product__name']
 
     def get_queryset(self):
         queryset = OrderItem.objects.filter(cart__user=self.request.user)
         return queryset
 
-    # def get_context_data(self, *, object_list=None, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['items'] = OrderItem.objects.filter(cart__user=self.request.user)
-    #     return context
-        #
-        # def get_queryset(self):
-        #     query = self.request.GET.get('search')
-        #     cat = self.request.GET.get('cat')
-        #     complete_set = Product.objects.all()
-        #
-        #     if (query is None or query == '') and (cat is None):
-        #         return complete_set
-        #     elif cat is not None:
-        #         return Product.objects.filter(macroCategories__name__icontains=cat)
-        #     else:
-        #         query = reduce(OR, (Q(name__icontains=item) | Q(productsearchtag__name__icontains=item) for item in
-        #                             query.split()))
-        #         return Product.objects.filter(query)
+
+class TypeOfUserView(LoginRequiredMixin, AccessMixin, TemplateView):
+    template_name = 'orders/type-of-user.html'
+
+
+class OrderBizCreateView(LoginRequiredMixin, AccessMixin, CreateView):
+    model = Order
+    form_class = OrderBizCreateForm
+    context_object_name = 'order'
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['name'] = self.request.user.first_name + ' ' + self.request.user.last_name
+        initial['email'] = self.request.user.email
+
+        return initial
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cart'] = self.request.user.cart
+
+        return context
+
+    def form_valid(self, form):
+        cart = Cart.objects.get(user_id=self.request.user.id)
+        form.instance.user = cart.user
+        form.instance.isBusinessUser = True
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('confirm', kwargs={'pk': self.object.id})
+
+
+class OrderBizUpdateView(LoginRequiredMixin, UserPassesTestMixin, AccessMixin, UpdateView):
+    model = Order
+    form_class = OrderBizCreateForm
+    context_object_name = 'order'
+
+    def test_func(self):
+        current_order = Order.objects.get(id=self.kwargs.get('pk'))
+        return current_order.user == self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        o_num = self.kwargs.get('pk')
+        order = Order.objects.get(id=o_num)
+        context['form'] = OrderBizCreateForm(instance=order)
+
+        return context
+
+    def get_success_url(self):
+        return reverse('confirm', kwargs={'pk': self.object.id})
+
+
+class OrderUserCreateView(LoginRequiredMixin, AccessMixin, CreateView):
+    model = Order
+    form_class = OrderUserCreateForm
+    context_object_name = 'order'
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['name'] = self.request.user.first_name + ' ' + self.request.user.last_name
+        initial['email'] = self.request.user.email
+
+        return initial
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cart'] = self.request.user.cart
+
+        return context
+
+    def form_valid(self, form):
+        cart = Cart.objects.get(user_id=self.request.user.id)
+        form.instance.user = cart.user
+        form.instance.isBusinessUser = False
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('confirm', kwargs={'pk': self.object.id})
+
+
+class OrderUserUpdateView(LoginRequiredMixin, UserPassesTestMixin, AccessMixin, UpdateView):
+    model = Order
+    form_class = OrderUserCreateForm
+    context_object_name = 'order'
+
+    def test_func(self):
+        current_order = Order.objects.get(id=self.kwargs.get('pk'))
+        return current_order.user == self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        o_num = self.kwargs.get('pk')
+        order = Order.objects.get(id=o_num)
+        context['form'] = OrderUserCreateForm(instance=order)
+
+        return context
+
+    def get_success_url(self):
+        return reverse('confirm', kwargs={'pk': self.object.id})
+
+
+class ConfirmOrderView(LoginRequiredMixin, UserPassesTestMixin, AccessMixin, ListView):
+    model = OrderItem
+    template_name = 'orders/confirm-order.html'
+    context_object_name = 'items'
+    paginate_by = 10
+
+    def test_func(self):
+        current_order = Order.objects.get(id=self.kwargs.get('pk'))
+        return current_order.user == self.request.user
+
+    def get_queryset(self):
+        cart = self.request.user.cart
+        order = Order.objects.get(id=self.kwargs.get('pk'))
+        order.products.set(cart.products.all())
+        order.total = cart.get_total()
+        order.adjust_shipping()
+        order.save()
+        queryset = order.products.all().order_by('product__name')
+        return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['order'] = Order.objects.get(id=self.kwargs.get('pk'))
+        return context
+
+
+class FinalOrderView(LoginRequiredMixin, AccessMixin, TemplateView):
+    model = Order
+    template_name = 'orders/final-order.html'
+
+    def get_context_data(self, **kwargs):
+        cart = self.request.user.cart
+        cart.clear_cart()
+        order = Order.objects.get(id=self.kwargs.get('pk'))
+        order.isFinalized = True
+        order.save()
+        context = super().get_context_data(**kwargs)
+        context['order'] = order
+        return context

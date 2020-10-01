@@ -21,6 +21,10 @@ body {
     vertical-align: middle;
 }
 
+.details td {
+    text-align: left;
+}
+
 .image-detail {
     height: 200px;
     width: 200px;
