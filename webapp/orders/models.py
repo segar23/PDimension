@@ -41,6 +41,7 @@ class Order(models.Model):
     needsEReceipt = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     isFinalized = models.BooleanField(default=False)
+    closed = models.BooleanField(default=False)
     total = models.DecimalField(decimal_places=2, max_digits=14, default=Decimal(0))
     shipping = models.DecimalField(decimal_places=2, max_digits=7, default=Decimal(4500))
 
@@ -68,6 +69,7 @@ class Order(models.Model):
     class OrderStatus(models.TextChoices):
         UNREAD = 'Sin Leer', 'Sin Leer'
         OPEN = 'Abierta', 'Abierta'
+        FACTURADA = 'Facturada', 'Facturada'
         CLOSED = 'Cerrada', 'Cerrada'
 
     status = models.CharField(max_length=140, choices=OrderStatus.choices, default=OrderStatus.UNREAD)
@@ -77,6 +79,15 @@ class Order(models.Model):
             if self.total > 100000:
                 self.shipping = Decimal(0)
             else:
-                self.shipping = 6000
+                self.shipping = Decimal(6000)
         elif self.total > 60000:
             self.shipping = Decimal(0)
+        else:
+            self.shipping = Decimal(4500)
+
+    def get_total_order(self):
+        self.total = 0
+        for product in self.products.all():
+            self.total += product.get_sub_total()
+        self.adjust_shipping()
+        return self.total

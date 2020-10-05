@@ -20,7 +20,7 @@
                         <td>{{ order.status }}</td>
                         <td>{{ order.created|date:"SHORT_DATE_FORMAT" }}</td>
                         <td>{{ order.payment }}</td>
-                        <td>$ {{ order.total }}</td>
+                        <td>$ {{ order.total|add:order.shipping }}</td>
                         <td>
                             <a class="btn btn-warning" href="{% url 'my-order-details' order.id %}">Ver</a>
                         </td>

@@ -11,7 +11,8 @@
                     <ul class="list-group">
                         <li class="list-group-item list-group-item-light">
                             <a class="stretched-link text-decoration-none"
-                               href="#"></a>Órdenes</li>
+                               href="{% url 'orders' %}"></a>Órdenes
+                            <span class="badge badge-primary">{{ orderscounter.count }}</span></li></li>
                         <li class="list-group-item list-group-item-light">
                             <a class="stretched-link text-decoration-none"
                                href="{% url 'categories' %}"></a>Categorías</li>

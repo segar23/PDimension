@@ -1,0 +1,153 @@
+{% extends 'control_panel/control_panel.html' %}
+{% load humanize %}
+{% block control_panel %}
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <h3>Productos</h3>
+        </div>
+        <hr/>
+        <table class="table table-striped w-100 mt-2">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Precio Unidad</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Sub-Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td style="text-align: left">{{ item.product.name }}</td>
+                        <td style="text-align: left">$ {{ item.product.price|intcomma }}</td>
+                        <td style="text-align: center">{{ item.quantity }}</td>
+                        <td style="text-align: left">$ {{ item.get_sub_total|intcomma }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if is_paginated %}
+
+            <div class="text-center my-2">
+
+                {% if page_obj.has_previous %}
+                    <a class="btn btn-outline-primary mb-4" href="?page=1">Inicio</a>
+                    <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <a class="btn btn-primary mb-4" href="?page={{ num }}">{{ num }}</a>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <a class="btn btn-outline-primary mb-4" href="?page={{ num }}">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                    <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.paginator.num_pages }}">Fin</a>
+                {% endif %}
+
+            </div>
+
+        {% endif %}
+        <div class="d-flex justify-content-around mt-3">
+            {% if order.status == 'Abierta' %}
+                <a class="btn btn-warning" href="{% url 'order-products-edit' order.id %}" style="color: white">Editar Productos</a>
+                <a class="btn btn-success" href="{% url 'order-bill' order.id %}">Marcar Facturada</a>
+            {% elif order.status == 'Facturada' %}
+                <a class="btn btn-success" href="{% url 'order-close' order.id %}">Cerrar Orden</a>
+            {% endif %}
+        </div>
+        <hr/>
+        <div class="my-4">
+            <h5>Total Productos: $ {{ order.total|intcomma }}</h5>
+            <h5>Costo del Envío: $ {{ order.shipping|intcomma }}</h5>
+            <h6 class="small text-muted">*Todos nuestros precios incluyen IVA</h6>
+            <br>
+            <h4>Total Orden: $ {{ order.total|add:order.shipping }}</h4>
+        </div>
+        <br>
+        <div>
+            <table class="table details">
+                <tbody>
+                    {% if order.isBusinessUser %}
+                        <tr>
+                            <td style="font-weight: bold">Razón Social:</td>
+                            <td>{{ order.enterprise }}</td>
+                            <td style="font-weight: bold">NIT:</td>
+                            <td>{{ order.person_id }} - {{ order.verification_digit }}</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold">Dirección:</td>
+                            <td>{{ order.address }}</td>
+                            <td style="font-weight: bold">Ciudad:</td>
+                            <td>{{ order.get_city_display }}</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold">Contacto:</td>
+                            <td>{{ order.name }}</td>
+                            <td style="font-weight: bold">Teléfono:</td>
+                            <td>{{ order.phone }}</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold">Correo:</td>
+                            <td>{{ order.email }}</td>
+                            <td style="font-weight: bold">Necesita Facturación Electrónica?:</td>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input"
+                                           id="defaultCheckedDisabled2" {% if order.needsEReceipt %}checked{% endif %} disabled>
+                                    <label class="custom-control-label" for="defaultCheckedDisabled2"></label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold">Método de Pago:</td>
+                            <td colspan="3">{{ order.get_payment_display }}</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold">Instrucciones:</td>
+                            <td colspan="3">{{ order.comments }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td style="font-weight: bold">Nombre:</td>
+                            <td>{{ order.name }}</td>
+                            <td style="font-weight: bold">Cédula:</td>
+                            <td>{{ order.person_id }}</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold">Dirección:</td>
+                            <td>{{ order.address }}</td>
+                            <td style="font-weight: bold">Ciudad:</td>
+                            <td>{{ order.get_city_display }}</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold">Correo:</td>
+                            <td>{{ order.email }}</td>
+                            <td style="font-weight: bold">Teléfono:</td>
+                            <td>{{ order.phone }}</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold">Método de Pago:</td>
+                            <td colspan="3">{{ order.get_payment_display }}</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold">Instrucciones:</td>
+                            <td colspan="3">{{ order.comments }}</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-around mt-3">
+            {% if order.status == 'Abierta' %}
+                <a class="btn btn-warning" href="{% url 'order-info-edit' order.id %}" style="color: white">Editar Información</a>
+                <a class="btn btn-success" href="{% url 'order-bill' order.id %}">Marcar Facturada</a>
+            {% elif order.status == 'Facturada' %}
+                <a class="btn btn-success" href="{% url 'order-close' order.id %}">Cerrar Orden</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'control_panel/control_panel.html' %}
+{% load humanize %}
+{% block control_panel %}
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <h3>Productos</h3>
+        </div>
+        <div class="d-flex justify-content-start">
+                <a class="btn btn-warning" href="{% url 'order-details' order.id %}" style="color: white">Guardar</a>
+        </div>
+        <hr/>
+        {% for item in items %}
+            <div class="card my-2">
+                <div class="row no-gutters">
+                    <div class="col-md-2">
+                        <img src="{{ item.product.picture.url }}" class="card-img" alt="...">
+                    </div>
+                    <div class="col-md-6 align-self-center border-right">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.product.name }}</h5>
+                            <p class="card-text">Precio: $ {{ item.product.price|intcomma }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 d-flex flex-column justify-content-center">
+                        <div class="row h-50">
+                            <div class="d-flex justify-content-center col">
+                                <p class="card-text my-auto ml-2">Cantidad: </p>
+                                <form class="form-inline">
+                                    <a class="btn btn-primary ml-2" href="{% url 'order-products-edit-decrease' order.id item.product.id %}">-</a>
+                                    <div class="w-25 d-flex justify-content-center px-0">
+                                        <input class="form-control form-control-sm w-75" readonly
+                                               style="text-align: center; background-color: transparent"
+                                               value="{{ item.quantity }}">
+                                    </div>
+                                    <a class="btn btn-primary mr-2" href="{% url 'order-products-edit-increase' order.id item.product.id %}">+</a>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row h-50">
+                            <div class="d-flex align-items-center col ml-2">
+                                <p class="card-text my-auto">Sub-Total: $ {{ item.get_sub_total|intcomma }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        {% if is_paginated %}
+
+            <div class="text-center my-2">
+
+                {% if page_obj.has_previous %}
+                    <a class="btn btn-outline-primary mb-4" href="?page=1">Inicio</a>
+                    <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <a class="btn btn-primary mb-4" href="?page={{ num }}">{{ num }}</a>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <a class="btn btn-outline-primary mb-4" href="?page={{ num }}">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                    <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.paginator.num_pages }}">Fin</a>
+                {% endif %}
+
+            </div>
+
+        {% endif %}
+        <hr/>
+        <div>
+            <h5>Total Carrito: $ {{ order.total|intcomma }}</h5>
+        </div>
+    </div>
+{% endblock %}
