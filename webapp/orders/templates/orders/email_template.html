@@ -1,0 +1,22 @@
+{% autoescape off %}
+    <h3>Tenemos Noticias!</h3>
+    <p>
+        Tu Orden # {{ id }} ya ha sido facturada y está próxima a ser entregada.
+    </p>
+    <p>
+            Para revisar tu orden da click en el siguiente link
+    </p>
+
+
+    https://papeleriadimension.com{% url 'my-order-details' id %}
+    <br>
+    <p>
+            Si tienes alguna duda, puedes responder a este correo o escribirnos a (+57) 304-563-5068
+    </p>
+    <p>
+        ¡Gracias por usar nuestro sitio!
+    </p>
+    <p>
+        Equipo Papelería Dimensión
+    </p>
+{% endautoescape %}

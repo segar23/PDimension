@@ -1,0 +1,83 @@
+{% extends 'control_panel/control_panel.html' %}
+{% load humanize %}
+{% block control_panel %}
+    <div class="container">
+        <div class="d-flex justify-content-around">
+            <a class="btn btn-outline-primary {% if unread %}disabled{% endif %}" href="{% url 'orders' %}?st=unread"
+               >Órdenes Sin Leer</a>
+            <a class="btn btn-outline-primary {% if active %}disabled{% endif %}" href="{% url 'orders' %}?st=active"
+               >Órdenes Activas</a>
+            <a class="btn btn-outline-primary {% if closed %}disabled{% endif %}" href="{% url 'orders' %}?st=closed"
+               >Órdenes Finalizadas</a>
+        </div>
+        <br>
+        <div class="d-flex justify-content-center">
+            {% if unread %}
+                <h4>Órdenes Sin Leer</h4>
+            {% endif %}
+            {% if active %}
+                <h4>Órdenes Activas</h4>
+            {% endif %}
+            {% if closed %}
+                <h4>Órdenes Finalizadas</h4>
+            {% endif %}
+        </div>
+        <table class="table table-striped w-100 table-sm">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">No. de Orden</th>
+                    <th scope="col">Tipo de Usuario</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Ver Orden</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td scope="row">{{ order.id }}</td>
+                        <td>
+                            {% if order.isBusinessUser %}
+                                Empresa
+                            {% else %}
+                                Usuario
+                            {% endif %}
+                        </td>
+                        <td>{{ order.created|date:"SHORT_DATE_FORMAT" }}</td>
+                        <td>{{ order.status }}</td>
+                        <td>$ {{ order.total|add:order.shipping }}</td>
+                        <td>
+                            <a class="btn btn-warning" href="{% url 'order-details' order.id %}">Ver</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if is_paginated %}
+
+            <div class="text-center my-2">
+
+                {% if page_obj.has_previous %}
+                    <a class="btn btn-outline-primary mb-4" href="?page=1">Inicio</a>
+                    <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <a class="btn btn-primary mb-4" href="?page={{ num }}">{{ num }}</a>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <a class="btn btn-outline-primary mb-4" href="?page={{ num }}">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                    <a class="btn btn-outline-primary mb-4" href="?page={{ page_obj.paginator.num_pages }}">Fin</a>
+                {% endif %}
+
+            </div>
+
+        {% endif %}
+    </div>
+{% endblock %}

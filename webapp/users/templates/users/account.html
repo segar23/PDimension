@@ -14,12 +14,23 @@
                             <span class="badge badge-primary">{{ user.cart.products.count }}</span></li>
                         <li class="list-group-item list-group-item-light">
                             <a class="stretched-link text-decoration-none"
-                               href="#"></a>Órdenes</li>
+                               href="{% url 'my-orders' %}"></a>Órdenes</li>
                         <li class="list-group-item list-group-item-light">
                             <a class="stretched-link text-decoration-none"
                                href="{% url 'profile' %}"></a>Editar Perfil</li>
                     </ul>
                     </p>
+                </div>
+                <div class="card p-2 mx-1 mb-2 border-0 shadow rounded tileLanding btn btn-outline-primary contact-card">
+                    <div class="card-img-top p-1 d-flex flex-row justify-content-center border-bottom">
+                        <i class="fab fa-whatsapp fa-3x ml-auto mx-2"></i></a>
+                        <p class="card-text m-0 mr-auto mx-2 my-auto font-weight-bold">Necesitas ayuda con tu pedido?</p>
+                    </div>
+                    <div class="card-body p-1 align-self-center mt-1">
+                        <h6 class="card-title m-0 contact-info-detail">(+57) 304-563-5068</h6>
+                    </div>
+                    <a class="stretched-link text-decoration-none"
+                       href="https://wa.me/573045635068?text=Hola%20Papeleria%20Dimension!" target="_blank"></a>
                 </div>
             </div>
 
