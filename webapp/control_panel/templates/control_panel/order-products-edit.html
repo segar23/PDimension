@@ -1,17 +1,12 @@
-{% extends 'users/account.html' %}
+{% extends 'control_panel/control_panel.html' %}
 {% load humanize %}
-{% block account %}
+{% block control_panel %}
     <div class="container">
         <div class="d-flex justify-content-center">
-            <h3>Carrito de Compras</h3>
+            <h3>Productos</h3>
         </div>
-        <div class="d-flex justify-content-around">
-            {% if items %}
-                <a class="btn btn-warning" href="{% url 'clear-cart' %}" style="color: white">Vaciar Carrito</a>
-                <a class="btn btn-success" href="{% url 'type-of-user' %}">Continuar Compra</a>
-            {% else %}
-                <h6 class="text-muted">Tu Carrito está vacio</h6>
-            {% endif %}
+        <div class="d-flex justify-content-start">
+                <a class="btn btn-warning" href="{% url 'order-details' order.id %}" style="color: white">Guardar</a>
         </div>
         <hr/>
         {% for item in items %}
@@ -31,13 +26,13 @@
                             <div class="d-flex justify-content-center col">
                                 <p class="card-text my-auto ml-2">Cantidad: </p>
                                 <form class="form-inline">
-                                    <a class="btn btn-primary ml-2" href="{% url 'decrease-item' item.product.id %}">-</a>
+                                    <a class="btn btn-primary ml-2" href="{% url 'order-products-edit-decrease' order.id item.product.id %}">-</a>
                                     <div class="w-25 d-flex justify-content-center px-0">
                                         <input class="form-control form-control-sm w-75" readonly
                                                style="text-align: center; background-color: transparent"
                                                value="{{ item.quantity }}">
                                     </div>
-                                    <a class="btn btn-primary mr-2" href="{% url 'increase-item' item.product.id %}">+</a>
+                                    <a class="btn btn-primary mr-2" href="{% url 'order-products-edit-increase' order.id item.product.id %}">+</a>
                                 </form>
                             </div>
                         </div>
@@ -77,8 +72,7 @@
         {% endif %}
         <hr/>
         <div>
-            <h5>Total Carrito: $ {{ user.cart.get_total|intcomma }}</h5>
-            <h6 class="small text-muted">*Todos nuestros precios incluyen IVA</h6>
+            <h5>Total Carrito: $ {{ order.total|intcomma }}</h5>
         </div>
     </div>
 {% endblock %}

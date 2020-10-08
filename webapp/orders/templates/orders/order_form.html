@@ -1,0 +1,26 @@
+{% extends 'users/account.html' %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% block account %}
+    <div class="content-section">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Orden</legend>
+                <div>
+                    <h5>Total: $ {{ user.cart.get_total|intcomma }}</h5>
+                    <h6 class="small text-muted">*Todos nuestros precios incluyen IVA</h6>
+                    <ul class="small">
+                        <li>Nuestros envíos tienen un costo de $ 4.500. Si tu pedido es superior a $ 60.000, nosotros cubrimos el envío.</li>
+                        <li>Si tu envío es para Girardota, Copacabana o Caldas, tiene un costo de $ 6.000. Si tu pedido es superior a $ 100.000, nosotros cubrimos el envío.</li>
+                    </ul>
+                </div>
+                <br>
+                {{ form | crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-primary" type="submit">Confirmar Orden</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

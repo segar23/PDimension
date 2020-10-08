@@ -1,0 +1,12 @@
+{% extends 'users/account.html' %}
+{% load humanize %}
+{% block account %}
+    <div class="container">
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h3>Muchas Gracias, {{ order.name|title }}!</h3>
+                <p class="lead">Tu orden ha sido finalizada exitosamente.</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
