@@ -3,8 +3,10 @@ from django.shortcuts import render, redirect
 from functools import reduce
 from operator import or_ as OR
 from django.db.models import Q
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.dispatch import receiver
+from django.core.mail import send_mail
 from django.db.models.signals import post_delete
 from django.views.generic import TemplateView, ListView, CreateView, DeleteView, UpdateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, AccessMixin
@@ -332,6 +334,9 @@ def set_facturada(request, pk):
     order = Order.objects.get(id=pk)
     order.status = Order.OrderStatus.FACTURADA
     order.save()
+    html_message = render_to_string('orders/email_template.html', {'id': order.id})
+    send_mail('Información Sobre tu Orden', '', 'no-reply@papeleriadimension.com', [order.email], fail_silently=False,
+              html_message=html_message)
     return redirect('order-details', pk=order.id)
 
 

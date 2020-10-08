@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, AccessMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect
+from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.views.generic import ListView, TemplateView, CreateView, UpdateView
@@ -215,6 +216,8 @@ class FinalOrderView(LoginRequiredMixin, AccessMixin, TemplateView):
         order.save()
         context = super().get_context_data(**kwargs)
         context['order'] = order
+        send_mail('Nueva Orden', f'Orden {order.id} disponible en el sitio', 'no-reply@papeleriadimension.com',
+                  ['info@papeleriadimension.com'], fail_silently=False)
         return context
 
 
