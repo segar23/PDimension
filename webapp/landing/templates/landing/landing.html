@@ -56,23 +56,10 @@
 
         </div>
 
-        {% comment %}<div class="col-8 px-0 col-lg-3 my-2">
-
-            <div class="card mx-1 h-100 border-0 shadow rounded tileLanding btn btn-outline-primary contact-card">
-                <div class="card-img-top h-75 d-flex justify-content-center">
-                        <i class="fas fa-home fa-7x align-self-center"></i>
-                </div>
-                <div class="card-body align-self-center">
-                    <h5 class="card-title contact-info font-weight-bold">¿Quiénes Somos?</h5>
-                </div>
-                <a class="stretched-link text-decoration-none" href="{% url 'about-us' %}"></a>
-            </div>
-
-        </div>{% endcomment %}
 
         <div class="col-8 px-0 my-2" id="mainMenu">
 
-            <div class="card mx-1 h-100 border-0 shadow rounded tileLanding btn btn-outline-primary contact-card">
+            <div class="card mx-1 h-100 border-0 shadow rounded tileLanding btn btn-outline-primary contact-card justify-content-center">
                 <div class="d-flex justify-content-center pt-2">
                     <i class="fas fa-th fa-7x"></i>
                 </div>
@@ -84,6 +71,19 @@
 
         </div>
 
+        <div class="col-8 px-0 col-lg-3 my-2">
+
+            <div class="card mx-1 h-100 border-0 shadow rounded tileLanding btn btn-outline-primary contact-card">
+                <div class="card-img-top h-75 d-flex justify-content-center">
+                        <i class="fas fa-home fa-7x align-self-center"></i>
+                </div>
+                <div class="card-body align-self-center">
+                    <h5 class="card-title contact-info font-weight-bold">¿Quiénes Somos?</h5>
+                </div>
+                <a class="stretched-link text-decoration-none" href="{% url 'about-us' %}"></a>
+            </div>
+
+        </div>
 
     </div>
 </main>
