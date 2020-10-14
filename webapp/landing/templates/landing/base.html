@@ -48,6 +48,7 @@
                                     <i class="fas fa-shopping-cart fa-lg mr-2" style="color: white"></i>
                                 </a>
                             {% endif %}
+                            <a class="btn btn-primary mx-1" href="{% url 'account' %}">Mi Cuenta</a>
                             <a class="btn btn-primary mx-1" href="{% url 'logout' %}">Cerrar Sesión</a>
                         {% else %}
                             <a class="btn btn-primary mx-2" href="{% url 'login' %}">Iniciar Sesión</a>
