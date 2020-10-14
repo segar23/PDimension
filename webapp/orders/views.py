@@ -216,7 +216,7 @@ class FinalOrderView(LoginRequiredMixin, AccessMixin, TemplateView):
         order.save()
         context = super().get_context_data(**kwargs)
         context['order'] = order
-        send_mail('Nueva Orden', f'Orden {order.id} disponible en el sitio', 'no-reply@papeleriadimension.com',
+        send_mail('Nueva Orden', f'Orden {order.id} disponible en el sitio', 'Notificación <info@papeleriadimension.com>',
                   ['info@papeleriadimension.com'], fail_silently=False)
         return context
 

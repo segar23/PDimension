@@ -335,7 +335,7 @@ def set_facturada(request, pk):
     order.status = Order.OrderStatus.FACTURADA
     order.save()
     html_message = render_to_string('orders/email_template.html', {'id': order.id})
-    send_mail('Información Sobre tu Orden', '', 'no-reply@papeleriadimension.com', [order.email], fail_silently=False,
+    send_mail('Información Sobre tu Orden', '', 'Papelería Dimensión <info@papeleriadimension.com>', [order.email], fail_silently=False,
               html_message=html_message)
     return redirect('order-details', pk=order.id)
 
