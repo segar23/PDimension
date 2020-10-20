@@ -28,6 +28,9 @@ def add_to_cart(request, pk):
             order_item = OrderItem(product=product, quantity=1)
             order_item.save()
             cart.products.add(order_item)
+
+        target = request.META.H
+        print('Target', target)
         return redirect('catalog')
 
 
