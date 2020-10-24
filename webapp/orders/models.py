@@ -12,6 +12,9 @@ class OrderItem(models.Model):
     def get_sub_total(self):
         return self.product.price * self.quantity
 
+    class Meta:
+        ordering = ['product__name']
+
 
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
