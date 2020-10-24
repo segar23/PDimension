@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, AccessMixin, UserPassesTestMixin
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
@@ -29,9 +30,11 @@ def add_to_cart(request, pk):
             order_item.save()
             cart.products.add(order_item)
 
-        target = request.META.H
-        print('Target', target)
-        return redirect('catalog')
+        response_data = {'result': 'Successful!', 'prd_id': product.id, 'quantity': order_item.quantity}
+        return JsonResponse(
+            response_data,
+            status=200
+        )
 
 
 @login_required
@@ -46,7 +49,7 @@ def increase_item(request, pk):
 
 
 @login_required
-def remove_from_cart(request, pk):
+def remove_from_cart(request, pk, cat='F'):
     product = Product.objects.get(id=pk)
     cart = request.user.cart
     order_item = cart.products.get(product=product)
@@ -54,10 +57,19 @@ def remove_from_cart(request, pk):
         order_item.quantity -= 1
         order_item.save()
         cart.save()
+        quantity = order_item.quantity
     else:
         order_item.delete()
         cart.save()
-    return redirect('view-cart')
+        quantity = 0
+    if cat == 'T':
+        response_data = {'result': 'Successful!', 'prd_id': product.id, 'quantity': quantity}
+        return JsonResponse(
+            response_data,
+            status=200
+        )
+    else:
+        return redirect('view-cart')
 
 
 @login_required
