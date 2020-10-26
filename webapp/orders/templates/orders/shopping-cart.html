@@ -28,16 +28,20 @@
                     </div>
                     <div class="col-md-4 d-flex flex-column justify-content-center">
                         <div class="row h-50">
-                            <div class="d-flex justify-content-center col">
+                            <div class="d-flex justify-content-center ml-3">
                                 <p class="card-text my-auto ml-2">Cantidad: </p>
+                            </div>
+                            <div class="d-flex justify-content-center ml-3">
                                 <form class="form-inline">
-                                    <a class="btn btn-primary ml-2" href="{% url 'decrease-item' item.product.id %}">-</a>
+                                    <a class="btn btn-primary ml-2" href="{% url 'decrease-item' item.product.id 5 %}">-5</a>
+                                    <a class="btn btn-primary ml-1" href="{% url 'decrease-item' item.product.id %}">-</a>
                                     <div class="w-25 d-flex justify-content-center px-0">
                                         <input class="form-control form-control-sm w-75" readonly
                                                style="text-align: center; background-color: transparent"
                                                value="{{ item.quantity }}">
                                     </div>
-                                    <a class="btn btn-primary mr-2" href="{% url 'increase-item' item.product.id %}">+</a>
+                                    <a class="btn btn-primary mr-1" href="{% url 'increase-item' item.product.id %}">+</a>
+                                    <a class="btn btn-primary mr-2" href="{% url 'increase-item' item.product.id 5 %}">+5</a>
                                 </form>
                             </div>
                         </div>

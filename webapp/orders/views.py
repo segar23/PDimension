@@ -38,23 +38,23 @@ def add_to_cart(request, pk):
 
 
 @login_required
-def increase_item(request, pk):
+def increase_item(request, pk, qt=1):
     product = Product.objects.get(id=pk)
     cart = request.user.cart
     order_item = cart.products.get(product=product)
-    order_item.quantity += 1
+    order_item.quantity += qt
     order_item.save()
     cart.save()
     return redirect('view-cart')
 
 
 @login_required
-def remove_from_cart(request, pk, cat='F'):
+def remove_from_cart(request, pk, qt=1):
     product = Product.objects.get(id=pk)
     cart = request.user.cart
     order_item = cart.products.get(product=product)
-    if order_item.quantity > 1:
-        order_item.quantity -= 1
+    if order_item.quantity > qt:
+        order_item.quantity -= qt
         order_item.save()
         cart.save()
         quantity = order_item.quantity
@@ -62,7 +62,7 @@ def remove_from_cart(request, pk, cat='F'):
         order_item.delete()
         cart.save()
         quantity = 0
-    if cat == 'T':
+    if request.is_ajax():
         response_data = {'result': 'Successful!', 'prd_id': product.id, 'quantity': quantity}
         return JsonResponse(
             response_data,

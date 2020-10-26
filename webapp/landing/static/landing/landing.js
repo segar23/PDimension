@@ -75,7 +75,7 @@ function increase_item(id, div) {
 function decrease_item(id, div) {
     $.ajax({
         type: 'GET',
-        url: '/account/cart/decrease/' + id + '/T',
+        url: '/account/cart/decrease/' + id,
         success: function (response) {
             if (response['quantity'] > 0){
                 let input = div.find('.quantity')
