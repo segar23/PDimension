@@ -1,3 +1,4 @@
+import re
 from functools import reduce
 from operator import or_ as OR
 from django.db.models import Q
@@ -44,5 +45,11 @@ class CatalogView (ListView):
         elif cat is not None:
             return Product.objects.filter(macroCategories__name__icontains=cat)
         else:
-            query = reduce(OR, (Q(name__icontains=item) | Q(productsearchtag__name__icontains=item) for item in query.split()))
-            return Product.objects.filter(query)
+            queryset_full = Product.objects.filter(name__icontains=query)
+            if queryset_full.count() > 0:
+                return queryset_full
+            else:
+                query = re.sub('( [Dd][Ee] )', ' ', query)
+                query = reduce(OR, (Q(name__icontains=item) | Q(productsearchtag__name__icontains=item) for item in query.split()))
+                queryset_partial = Product.objects.filter(query)
+                return queryset_partial
