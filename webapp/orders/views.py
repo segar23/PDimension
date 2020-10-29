@@ -30,11 +30,14 @@ def add_to_cart(request, pk):
             order_item.save()
             cart.products.add(order_item)
 
-        response_data = {'result': 'Successful!', 'prd_id': product.id, 'quantity': order_item.quantity}
-        return JsonResponse(
-            response_data,
-            status=200
-        )
+        if request.is_ajax():
+            response_data = {'result': 'Successful!', 'prd_id': product.id, 'quantity': order_item.quantity}
+            return JsonResponse(
+                response_data,
+                status=200
+            )
+        else:
+            return redirect('catalog')
 
 
 @login_required

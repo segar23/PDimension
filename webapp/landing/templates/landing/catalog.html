@@ -67,7 +67,11 @@
                                         {% endif %}
                                     {% endfor %}
                                 {% else %}
-                                    <a class="btn btn-success add-to-cart" href="#">Añadir al Carrito</a>
+                                    {% if user.is_authenticated %}
+                                        <a class="btn btn-success add-to-cart" href="#">Añadir al Carrito</a>
+                                    {% else %}
+                                        <a class="btn btn-success" href="{% url 'add-to-cart' product.id %}">Añadir al Carrito</a>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </div>
