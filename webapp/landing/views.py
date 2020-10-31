@@ -1,8 +1,10 @@
+import re
 from functools import reduce
 from operator import or_ as OR
 from django.db.models import Q
 from django.views.generic import TemplateView, ListView
 from control_panel.models import Product, Category
+from orders.models import OrderItem
 
 
 class LandingHome (TemplateView):
@@ -26,7 +28,11 @@ class CatalogView (ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['macro_categories'] = Category.objects.filter(isMacro=True)
-        context['sub-categories'] = Category.objects.filter(isMacro=False)
+        context['sub_categories'] = Category.objects.filter(isMacro=False)
+        if self.request.user.is_authenticated:
+            order_items = OrderItem.objects.filter(cart__user=self.request.user)
+            context['order_items'] = order_items
+            context['order_products'] = Product.objects.filter(orderitem__cart__products__in=order_items)
         return context
 
     def get_queryset(self):
@@ -39,5 +45,11 @@ class CatalogView (ListView):
         elif cat is not None:
             return Product.objects.filter(macroCategories__name__icontains=cat)
         else:
-            query = reduce(OR, (Q(name__icontains=item) | Q(productsearchtag__name__icontains=item) for item in query.split()))
-            return Product.objects.filter(query)
+            queryset_full = Product.objects.filter(name__icontains=query)
+            if queryset_full.count() > 0:
+                return queryset_full
+            else:
+                query = re.sub('( [Dd][Ee] )', ' ', query)
+                query = reduce(OR, (Q(name__icontains=item) | Q(productsearchtag__name__icontains=item) for item in query.split()))
+                queryset_partial = Product.objects.filter(query)
+                return queryset_partial

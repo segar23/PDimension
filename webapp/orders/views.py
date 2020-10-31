@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, AccessMixin, UserPassesTestMixin
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
@@ -28,33 +29,50 @@ def add_to_cart(request, pk):
             order_item = OrderItem(product=product, quantity=1)
             order_item.save()
             cart.products.add(order_item)
-        return redirect('catalog')
+
+        if request.is_ajax():
+            response_data = {'result': 'Successful!', 'prd_id': product.id, 'quantity': order_item.quantity}
+            return JsonResponse(
+                response_data,
+                status=200
+            )
+        else:
+            return redirect('catalog')
 
 
 @login_required
-def increase_item(request, pk):
+def increase_item(request, pk, qt=1):
     product = Product.objects.get(id=pk)
     cart = request.user.cart
     order_item = cart.products.get(product=product)
-    order_item.quantity += 1
+    order_item.quantity += qt
     order_item.save()
     cart.save()
     return redirect('view-cart')
 
 
 @login_required
-def remove_from_cart(request, pk):
+def remove_from_cart(request, pk, qt=1):
     product = Product.objects.get(id=pk)
     cart = request.user.cart
     order_item = cart.products.get(product=product)
-    if order_item.quantity > 1:
-        order_item.quantity -= 1
+    if order_item.quantity > qt:
+        order_item.quantity -= qt
         order_item.save()
         cart.save()
+        quantity = order_item.quantity
     else:
         order_item.delete()
         cart.save()
-    return redirect('view-cart')
+        quantity = 0
+    if request.is_ajax():
+        response_data = {'result': 'Successful!', 'prd_id': product.id, 'quantity': quantity}
+        return JsonResponse(
+            response_data,
+            status=200
+        )
+    else:
+        return redirect('view-cart')
 
 
 @login_required
@@ -87,10 +105,21 @@ class OrderBizCreateView(LoginRequiredMixin, AccessMixin, CreateView):
 
     def get_initial(self):
         initial = super().get_initial()
-        initial['name'] = self.request.user.first_name + ' ' + self.request.user.last_name
-        initial['email'] = self.request.user.email
-
-        return initial
+        try:
+            previous_order = Order.objects.filter(isBusinessUser=True, user=self.request.user).latest('created')
+            initial['enterprise'] = previous_order.enterprise
+            initial['email'] = previous_order.email
+            initial['person_id'] = previous_order.person_id
+            initial['verification_digit'] = previous_order.verification_digit
+            initial['address'] = previous_order.address
+            initial['city'] = previous_order.city
+            initial['phone'] = previous_order.phone
+            initial['name'] = previous_order.name
+        except:
+            initial['name'] = self.request.user.first_name + ' ' + self.request.user.last_name
+            initial['email'] = self.request.user.email
+        finally:
+            return initial
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -136,10 +165,19 @@ class OrderUserCreateView(LoginRequiredMixin, AccessMixin, CreateView):
 
     def get_initial(self):
         initial = super().get_initial()
-        initial['name'] = self.request.user.first_name + ' ' + self.request.user.last_name
-        initial['email'] = self.request.user.email
-
-        return initial
+        try:
+            previous_order = Order.objects.filter(isBusinessUser=False, user=self.request.user).latest('created')
+            initial['name'] = previous_order.name
+            initial['email'] = previous_order.email
+            initial['person_id'] = previous_order.person_id
+            initial['address'] = previous_order.address
+            initial['city'] = previous_order.city
+            initial['phone'] = previous_order.phone
+        except:
+            initial['name'] = self.request.user.first_name + ' ' + self.request.user.last_name
+            initial['email'] = self.request.user.email
+        finally:
+            return initial
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
