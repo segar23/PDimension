@@ -105,10 +105,21 @@ class OrderBizCreateView(LoginRequiredMixin, AccessMixin, CreateView):
 
     def get_initial(self):
         initial = super().get_initial()
-        initial['name'] = self.request.user.first_name + ' ' + self.request.user.last_name
-        initial['email'] = self.request.user.email
-
-        return initial
+        try:
+            previous_order = Order.objects.filter(isBusinessUser=True, user=self.request.user).latest('created')
+            initial['enterprise'] = previous_order.enterprise
+            initial['email'] = previous_order.email
+            initial['person_id'] = previous_order.person_id
+            initial['verification_digit'] = previous_order.verification_digit
+            initial['address'] = previous_order.address
+            initial['city'] = previous_order.city
+            initial['phone'] = previous_order.phone
+            initial['name'] = previous_order.name
+        except:
+            initial['name'] = self.request.user.first_name + ' ' + self.request.user.last_name
+            initial['email'] = self.request.user.email
+        finally:
+            return initial
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -154,10 +165,19 @@ class OrderUserCreateView(LoginRequiredMixin, AccessMixin, CreateView):
 
     def get_initial(self):
         initial = super().get_initial()
-        initial['name'] = self.request.user.first_name + ' ' + self.request.user.last_name
-        initial['email'] = self.request.user.email
-
-        return initial
+        try:
+            previous_order = Order.objects.filter(isBusinessUser=False, user=self.request.user).latest('created')
+            initial['name'] = previous_order.name
+            initial['email'] = previous_order.email
+            initial['person_id'] = previous_order.person_id
+            initial['address'] = previous_order.address
+            initial['city'] = previous_order.city
+            initial['phone'] = previous_order.phone
+        except:
+            initial['name'] = self.request.user.first_name + ' ' + self.request.user.last_name
+            initial['email'] = self.request.user.email
+        finally:
+            return initial
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
