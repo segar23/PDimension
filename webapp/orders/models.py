@@ -1,8 +1,8 @@
-from decimal import Decimal
+from decimal import Decimal, getcontext
 
 from django.db import models
 from django.contrib.auth.models import User
-from control_panel.models import Product
+from control_panel.models import Product, Category
 
 
 class OrderItem(models.Model):
@@ -10,7 +10,13 @@ class OrderItem(models.Model):
     quantity = models.IntegerField(default=1)
 
     def get_sub_total(self):
-        return self.product.price * self.quantity
+        if self.quantity >= 12:
+            return Decimal.to_integral_value(self.product.price * Decimal(.95)) * self.quantity
+        else:
+            return self.product.price * self.quantity
+
+    def get_discounted_price(self):
+        return Decimal(self.get_sub_total() / self.quantity)
 
     class Meta:
         ordering = ['product__name']
