@@ -23,7 +23,12 @@
                     <div class="col-md-6 align-self-center border-right">
                         <div class="card-body">
                             <h5 class="card-title">{{ item.product.name }}</h5>
-                            <p class="card-text">Precio: $ {{ item.product.price|intcomma }}</p>
+                            {% if item.quantity < 12 %}
+                                <p class="card-text">Precio: $ {{ item.product.price|intcomma }}</p>
+                            {% else %}
+                                <p class="card-text">Precio: $ {{ item.get_discounted_price|intcomma }} <s>{{ item.product.price|intcomma }}</s>
+                                </p>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="col-md-4 d-flex flex-column justify-content-center">
